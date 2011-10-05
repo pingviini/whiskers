@@ -15,6 +15,7 @@ requires = [
     'zc.relation',
     'zope.interface',
     'repoze.catalog',
+    'nose',
     ]
 
 setup(name='whiskers',

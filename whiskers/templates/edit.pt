@@ -1,0 +1,19 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+  <tal:block metal:use-macro="main.macros['body']">
+    <div metal:fill-slot="content">
+      <div class="bottom">
+        <form action="${save_url}" method="post">
+          <label for="site_id">Site ID</label>
+          <input name="site_id" type="text" name="site_id"></input>
+          <textarea name="data" rows="10" cols="60" tal:content="buildout.data"></textarea><br/>
+          <input type="submit" name="form.submitted" value="Save"/>
+        </form>
+      </div>
+    </div>
+  </tal:block>
+</html>

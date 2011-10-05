@@ -1,0 +1,21 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div id="bottom">
+      <div class="bottom">
+      <div id="container">
+        <h1>Add new buildout setup</h1>
+        <p class="discreet">Lorem ipsum</p>
+          <span tal:replace="structure form"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</tal:block>
+
+</html>

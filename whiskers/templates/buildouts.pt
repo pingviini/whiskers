@@ -1,0 +1,24 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div id="bottom">
+      <div class="bottom">
+        <div>
+          <div tal:repeat="buildout request.context.values()">
+            <p>
+              <a class="delete" style="font-size:70%;color:red;" tal:attributes="href string: ${buildout.buildoutname}/delete">[Delete]</a>
+              <a tal:attributes="href string: ${buildout.buildoutname}/edit"
+                tal:content="buildout.buildoutname" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</tal:block>
+</html>
