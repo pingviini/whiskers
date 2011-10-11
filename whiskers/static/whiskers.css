@@ -46,7 +46,7 @@ body h6{font-family:"NeutonRegular","Lucida Grande",Lucida,Verdana,sans-serif;fo
 .top{padding-top:40px;}
 .top-small{padding-top:10px;}
 #middle{width:100%;height:100px;background:url(middlebg.png) repeat-x;border-top:2px solid #ffffff;border-bottom:2px solid #b2b2b2;}
-.app-welcome{margin-top:25px;}
+.app-welcome{margin-top:15px;}
 .app-name{color:#000000;font-weight:bold;}
 .bottom{padding-top:50px;}
 #left{width:350px;float:left;padding-right:25px;}
@@ -61,5 +61,17 @@ fieldset{border-style:none;}
 input{color:#222;border:1px solid #ccc;font-family:sans-serif;font-size:12px;line-height:16px;}
 input[type=text],input[type=password]{width:205px;}
 input[type=submit]{background-color:#ddd;font-weight:bold;}
+
+nav {
+    text-align: center;
+}
+nav.top-navigation ul {
+    text-align: center;
+}
+nav.top-navigation ul li {
+  float:left;
+  list-style-type: none;
+  margin-left: 2em;
+}
 /*Opera Fix*/
 body:before{content:"";height:100%;float:left;width:0;margin-top:-32767px;}

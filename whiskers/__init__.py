@@ -1,15 +1,25 @@
 from pyramid.config import Configurator
-from pyramid_zodbconn import get_connection
-from whiskers.models import appmaker
+from sqlalchemy import engine_from_config
 
-def root_factory(request):
-    conn = get_connection(request)
-    return appmaker(conn.root())
+from whiskers.models import initialize_sql
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    config = Configurator(root_factory=root_factory, settings=settings)
+    engine = engine_from_config(settings, 'sqlalchemy.')
+    initialize_sql(engine)
+    config = Configurator(settings=settings)
     config.add_static_view('static', 'whiskers:static', cache_max_age=3600)
-    config.scan('whiskers')
+    config.add_route('home', '/')
+    config.add_view('whiskers.views.whiskers_view',
+                    route_name='home',
+                    renderer='templates/whiskers_view.pt')
+    config.add_route('buildouts', '/buildouts')
+    config.add_view('whiskers.views.buildouts_view',
+                    route_name='buildouts',
+                    renderer='templates/buildouts.pt')
+    config.add_route('add', '/buildouts/add')
+    config.add_view('whiskers.views.add_buildout_view',
+                    route_name='add')
     return config.make_wsgi_app()
+

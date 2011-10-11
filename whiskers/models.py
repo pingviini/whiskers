@@ -1,85 +1,55 @@
-from persistent.mapping import PersistentMapping
-from persistent import Persistent
-from BTrees.IOBTree import IOBTree
-from whiskers import interfaces
+from sqlalchemy import Column
+from sqlalchemy import Integer
+from sqlalchemy import Unicode
+from sqlalchemy import ForeignKey
+from sqlalchemy import Table
+
+from sqlalchemy.ext.declarative import declarative_base
+
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
+
+from zope.sqlalchemy import ZopeTransactionExtension
 from zope.interface import implements
-import random
+from whiskers import interfaces
+
+DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
+Base = declarative_base()
 
 
-class Whiskers(PersistentMapping):
-    """
-    Application root which contains Buildouts, Packages and
-    CISettings.
-    """
-    __parent__ = __name__ = None
-    implements(interfaces.IWhiskers)
+bp_association_table = Table('buildout_package_association', Base.metadata,
+    Column('buildout_id', Integer, ForeignKey('buildout.id')),
+    Column('package_id', Integer, ForeignKey('package.id'))
+)
 
-    def getInt(self):
-        return int(round(random.random()*10000))
+class Buildout(Base):
+    implements(interfaces.IBuildout)
+    __tablename__ = 'buildout'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(255))
+    packages = relationship("Package", secondary=bp_association_table,
+                            backref="buildouts")
 
-
-class WhiskersContainer(object):
-
-    current_id = -1
-
-    def add_item(self, item):
-        newid = self.current_id + 1
-        self.current_id = newid
-        item.__name__ = newid
-        self[newid] = item
-        return newid
+    def __init__(self, name, packages):
+        self.name = name
+        self.packages = packages
 
 
-class Packages(IOBTree, WhiskersContainer):
-    """
-    Packages is container for Package objects.
-    """
-    implements(interfaces.IPackages)
-    current_id = -1
-
-
-class Package(Persistent):
-    """
-    Package has attributes for egg name and version.
-    """
+class Package(Base):
     implements(interfaces.IPackage)
+
+    __tablename__ = 'package'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(255))
+    versions = Column(Unicode(20))
 
     def __init__(self, name, version):
         self.name = name
         self.version = version
 
 
-class Buildouts(IOBTree, WhiskersContainer):
-    """
-    Buildouts is a container for Buildout objects.
-    """
-    implements(interfaces.IBuildouts)
-    current_id = -1
-
-
-class Buildout(Persistent):
-    """
-    Buildout has attributes for buildoutname.
-    """
-    implements(interfaces.IBuildout)
-
-    def __init__(self, buildoutname, packages):
-        self.buildoutname = buildoutname
-        self.package_ids = packages
-
-
-def appmaker(zodb_root):
-    if not 'app_root' in zodb_root:
-        app_root = Whiskers()
-        zodb_root['app_root'] = app_root
-        packages = Packages()
-        packages.__parent__ = app_root
-        packages.__name__ = u'packages'
-        app_root[u'packages'] = packages
-        buildouts = Buildouts()
-        buildouts.__parent__ = app_root
-        buildouts.__name__ = u'buildouts'
-        app_root[u'buildouts'] = buildouts
-        import transaction
-        transaction.commit()
-    return zodb_root['app_root']
+def initialize_sql(engine):
+    DBSession.configure(bind=engine)
+    Base.metadata.bind = engine
+    Base.metadata.create_all(engine)

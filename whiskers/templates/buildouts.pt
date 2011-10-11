@@ -9,11 +9,14 @@
     <div id="bottom">
       <div class="bottom">
         <div>
-          <div tal:repeat="buildout request.context.values()">
+          <div tal:repeat="buildout buildouts">
             <p>
-              <a class="delete" style="font-size:70%;color:red;" tal:attributes="href string: ${buildout.buildoutname}/delete">[Delete]</a>
-              <a tal:attributes="href string: ${buildout.buildoutname}/edit"
-                tal:content="buildout.buildoutname" />
+              <a class="delete" style="font-size:70%;color:red;" 
+                tal:attributes="href string: buildouts/${buildout.name}/delete">
+                  [Delete]
+              </a>
+              <a tal:attributes="href string: buildouts/${buildout.name}/view"
+                tal:content="buildout.name" />
             </p>
           </div>
         </div>
