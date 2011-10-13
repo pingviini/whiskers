@@ -21,5 +21,9 @@ def main(global_config, **settings):
     config.add_route('add', '/buildouts/add')
     config.add_view('whiskers.views.add_buildout_view',
                     route_name='add')
+    config.add_route('view', '/buildouts/{buildout_id}/view')
+    config.add_view('whiskers.views.buildout_view',
+                    route_name='view',
+                    renderer='templates/buildout.pt')
     return config.make_wsgi_app()
 

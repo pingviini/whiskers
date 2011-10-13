@@ -40,8 +40,9 @@ def buildouts_view(request):
     buildouts = session.query(Buildout).all()
     return {'buildouts': buildouts, 'project':'whiskers', 'main': main}
 
-def view_buildout(request):
+def buildout_view(request):
+    main = get_renderer('whiskers:templates/master.pt').implementation()
     session = DBSession()
-    params = request.params
-    buildout = session.query(Buildout).filter_by(id=params.id).one()
-    return {'item':buildout, 'project':'whiskers'}
+    buildout_id = request.matchdict['buildout_id']
+    buildout = session.query(Buildout).filter_by(id=int(buildout_id)).one()
+    return {'buildout': buildout, 'project':'whiskers', 'main': main}

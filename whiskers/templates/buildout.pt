@@ -8,16 +8,10 @@
   <div metal:fill-slot="content">
     <div id="bottom">
       <div class="bottom">
+        <h1 tal:content="string: ${buildout.name}"/>
         <div>
-          <div tal:repeat="buildout buildouts">
-            <p>
-              <a class="delete" style="font-size:70%;color:red;" 
-                tal:attributes="href string: buildouts/${buildout.id}/delete">
-                  [Delete]
-              </a>
-              <a tal:attributes="href string: buildouts/${buildout.id}/view"
-                tal:content="buildout.name" />
-            </p>
+          <div tal:repeat="package buildout.packages">
+            <p tal:content="string: ${package.name}" />
           </div>
         </div>
       </div>
