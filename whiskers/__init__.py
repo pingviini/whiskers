@@ -25,5 +25,9 @@ def main(global_config, **settings):
     config.add_view('whiskers.views.buildout_view',
                     route_name='view',
                     renderer='templates/buildout.pt')
+    config.add_route('package_view', '/packages/{package_id}/view')
+    config.add_view('whiskers.views.package_view',
+                    route_name='package_view',
+                    renderer='templates/package.pt')
     return config.make_wsgi_app()
 

@@ -8,13 +8,12 @@
   <div metal:fill-slot="content">
     <div id="bottom">
       <div class="bottom">
-        <h1 tal:content="string: ${buildout.name}"/>
+        <h1 tal:content="string: ${package.name} - ${package.version}"/>
         <div>
-          <div tal:repeat="package buildout.packages">
-            <a href="/packages/${package.id}/view">
-              <span tal:content="string: ${package.name}" />
-              - 
-              <span tal:content="string: ${package.version}" />
+          <p>This package is used by following buildouts</p>
+          <div tal:repeat="buildout package.buildouts">
+            <a href="/buildouts/${buildout.id}/view">
+              <span tal:content="string: ${buildout.name}" />
             </a>
           </div>
         </div>

@@ -28,7 +28,7 @@
 
   <body metal:define-macro="body">
     <div metal:define-slot="header">
-    <div id="wrap">
+    <div>
       <div id="top">
         <div class="top align-center">
           <div><img src="${request.static_url('whiskers:static/pyramid.png')}" width="750" height="169" alt="pyramid"/></div>
@@ -43,10 +43,10 @@
           <nav class="top-navigation">
             <ul>
               <li>
-                <a href="buildouts">View buildouts</a>
+                <a href="/buildouts">View buildouts</a>
               </li>
               <li>
-                <a href="ci-settings">CI tool settings</a>
+                <a href="/ci-settings">CI tool settings</a>
               </li>
             </ul>
           </nav>
@@ -57,7 +57,7 @@
     <div metal:define-slot="content">
     </div>
     <div style="margin-top:10px;" id="footer">
-      <div class="footer">&copy; Copyright University of Jyväskylä.</div>
+      <div class="footer">&copy; Jukka Ojaniemi, 2011</div>
     </div>  
   </body>
 </html>
