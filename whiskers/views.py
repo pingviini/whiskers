@@ -13,8 +13,8 @@ def whiskers_view(request):
 
 def add_buildout_view(request):
     try:
-        data = json.loads(request.params.keys()[0])
-    except IndexError:
+        data = json.loads(request.params['data'])
+    except KeyError:
         return Response('No data. Nothing added.')
 
     session = DBSession()
