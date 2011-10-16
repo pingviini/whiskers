@@ -1,8 +1,7 @@
 Whiskers
 ========
 
-.. figure:: https://github.com/pingviini/whiskers/blob/master/whiskers.jpg
-   :alt: "Vibrissae (singular: vibrissa), or whiskers, are specialized hairs (or, in
+    "Vibrissae (singular: vibrissa), or whiskers, are specialized hairs (or, in
     certain bird species, specialized feathers) usually employed for tactile
     sensation." - Wikipedia
 
