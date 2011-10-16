@@ -43,8 +43,6 @@ class Package(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255))
     version = Column(Unicode(20))
-    #buildouts = relationship("Buildout", secondary=bp_association_table,
-    #                         backref="packages")
 
     def __init__(self, name, version):
         self.name = name
