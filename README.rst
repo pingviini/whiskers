@@ -1,11 +1,10 @@
 Whiskers
 ========
 
-.. image:: whiskers.jpg
-
-    "Vibrissae (singular: vibrissa), or whiskers, are specialized hairs (or, in
+.. figure:: whiskers.jpg
+   :alt: "Vibrissae (singular: vibrissa), or whiskers, are specialized hairs (or, in
     certain bird species, specialized feathers) usually employed for tactile
-    sensation."
+    sensation." - Wikipedia
 
 Whiskers is a Pyramid application for storing information about your buildouts.
 It is intended to use with buildout.sendpickedversions (PyPI_, Github_)
