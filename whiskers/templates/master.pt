@@ -2,10 +2,10 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
     xmlns:metal="http://xml.zope.org/namespaces/metal">
   <head metal:define-macro="head">
-    <title>The Pyramid Web Application Development Framework</title>
+    <title>Whiskers</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <meta name="keywords" content="python web application" />
-    <meta name="description" content="pyramid web application" />
+    <meta name="keywords" content="whiskers python web application" />
+    <meta name="description" content="whiskers pyramid web application" />
     <link rel="shortcut icon" href="${request.static_url('whiskers:static/favicon.ico')}" />
     <link rel="stylesheet" href="${request.static_url('whiskers:static/whiskers.css')}" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
@@ -28,7 +28,7 @@
 
   <body metal:define-macro="body">
     <div metal:define-slot="header">
-    <div>
+    <div id="wrap">
       <div id="top">
         <div class="top align-center">
           <div><img src="${request.static_url('whiskers:static/pyramid.png')}" width="750" height="169" alt="pyramid"/></div>
@@ -52,12 +52,12 @@
           </nav>
         </div>
       </div>
-    </div>  
+    </div>
     </div>
     <div metal:define-slot="content">
     </div>
     <div style="margin-top:10px;" id="footer">
       <div class="footer">&copy; Jukka Ojaniemi, 2011</div>
-    </div>  
+    </div>
   </body>
 </html>

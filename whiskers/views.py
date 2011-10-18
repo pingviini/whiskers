@@ -27,8 +27,8 @@ def add_buildout_view(request):
         buildout = Buildout(name=buildoutname, packages=prepared_packages)
     else:
         buildout = buildout[0]
+        buildout.packages = prepared_packages
     session.merge(buildout)
-    session.flush()
     transaction.commit()
     return Response('OK')
 

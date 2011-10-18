@@ -5,7 +5,8 @@ from chameleon.zpt.template import PageTemplateFile
 from pyramid import testing
 
 
-test_data = {"buildoutname": "test",
+test_data = {
+    "buildoutname": "test",
     "packages": [
         {"version": "0.6.24", "name": "distribute"},
         {"version": "1.1.2", "name": "nose"},
@@ -104,12 +105,12 @@ class InitializeSqlTests(unittest.TestCase):
         self._createDummyContent(DBSession)
         buildout = DBSession.query(Buildout).one()
         self.assertEqual(buildout.name, 'buildout')
-        packages = ['package1', 'package2']
-        versions = ['1.0', '1.1']
+        packages = [u'package1', u'package2']
+        versions = [u'1.0', u'1.1']
         buildout_packages = [i.name for i in buildout.packages]
         buildout_versions = [i.version for i in buildout.packages]
-        self.assertEqual(packages, buildout_packages)
-        self.assertEqual(versions, buildout_versions)
+        self.assertEqual(packages.sort(), buildout_packages.sort())
+        self.assertEqual(versions.sort(), buildout_versions.sort())
 
 
 class TestWhiskersView(unittest.TestCase):
@@ -164,6 +165,12 @@ class AddBuildoutTests(unittest.TestCase):
         from whiskers.views import add_buildout_view
         return add_buildout_view(request)
 
+    def add_buildout(self, test_data=test_data):
+        _registerRoutes(self.config)
+        request = testing.DummyRequest()
+        request.params = {'data': json.dumps(test_data)}
+        self._callFUT(request)
+
     def test_it_nodata(self):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
@@ -172,13 +179,24 @@ class AddBuildoutTests(unittest.TestCase):
         self.assertEqual(info.text, u'No data. Nothing added.')
 
     def test_it_submitted(self):
+        self.add_buildout()
         from whiskers.models import Buildout
-        _registerRoutes(self.config)
-        request = testing.DummyRequest()
-        request.params = {'data': json.dumps(test_data)}
-        self._callFUT(request)
         buildout = self.session.query(Buildout).filter_by(name='test').one()
         self.assertEqual(buildout.name, u'test')
         packages = [i.name for i in buildout.packages]
         for p in ['distribute', 'nose', 'zc.buildout', 'zc.recipe.egg']:
             self.assertTrue(p in packages)
+
+    def test_update_data(self):
+        from whiskers.models import Buildout
+        # First we add default data and check it's there
+        self.add_buildout()
+        buildout = self.session.query(Buildout).filter_by(name='test').one()
+        packages = [(i.name, i.version) for i in buildout.packages]
+        self.assertTrue((u'distribute', u'0.6.24') in packages)
+        # Lets update our data
+        test_data['packages'][0]['version'] = '0.6.25'
+        self.add_buildout(test_data)
+        buildout = self.session.query(Buildout).filter_by(name='test').one()
+        packages = [(i.name, i.version) for i in buildout.packages]
+        self.assertTrue((u'distribute', u'0.6.25') in packages)
