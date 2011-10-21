@@ -43,10 +43,7 @@
           <nav class="top-navigation">
             <ul>
               <li>
-                <a href="/buildouts">View buildouts</a>
-              </li>
-              <li>
-                <a href="/ci-settings">CI tool settings</a>
+                <a href="${request.route_url('buildouts')}">View buildouts</a>
               </li>
             </ul>
           </nav>
