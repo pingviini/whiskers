@@ -14,17 +14,26 @@ def main(global_config, **settings):
     config.add_view('whiskers.views.whiskers_view',
                     route_name='home',
                     renderer='templates/whiskers_view.pt')
+
     config.add_route('buildouts', '/buildouts')
     config.add_view('whiskers.views.buildouts_view',
                     route_name='buildouts',
                     renderer='templates/buildouts.pt')
+
     config.add_route('add', '/buildouts/add')
     config.add_view('whiskers.views.add_buildout_view',
                     route_name='add')
+
     config.add_route('buildout_view', '/buildouts/{buildout_id}/view')
     config.add_view('whiskers.views.buildout_view',
                     route_name='buildout_view',
                     renderer='templates/buildout.pt')
+
+    config.add_route('packages', '/packages')
+    config.add_view('whiskers.views.packages_view',
+                    route_name='packages',
+                    renderer='templates/packages.pt')
+
     config.add_route('package_view', '/packages/{package_id}/view')
     config.add_view('whiskers.views.package_view',
                     route_name='package_view',

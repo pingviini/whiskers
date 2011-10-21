@@ -48,12 +48,13 @@ class PackageModelTests(unittest.TestCase):
         return Package
 
     def _makeOne(self, name='package', version='1.0'):
-        return self._getTargetClass()(name, version)
+        from whiskers.models import Version
+        return self._getTargetClass()(name, Version(version))
 
     def test_constructor(self):
         instance = self._makeOne()
         self.assertEqual(instance.name, 'package')
-        self.assertEqual(instance.version, '1.0')
+        self.assertEqual(instance.version.version, '1.0')
 
 
 class BuildoutModelTests(unittest.TestCase):
@@ -65,9 +66,9 @@ class BuildoutModelTests(unittest.TestCase):
         self.session.remove()
 
     def _makeOneBuildout(self, name='buildout'):
-        from whiskers.models import Buildout, Package
-        return Buildout(name, packages=[Package('package1', version='1.0'),
-                                        Package('package2', version='1.1')])
+        from whiskers.models import Buildout, Package, Version
+        return Buildout(name, packages=[Package('package1', Version('1.0')),
+                                        Package('package2', Version('1.1'))])
 
     def test_constructor(self):
         instance = self._makeOneBuildout()
@@ -90,8 +91,9 @@ class InitializeSqlTests(unittest.TestCase):
         return initialize_sql(engine)
 
     def _createDummyContent(self, session):
-        from whiskers.models import Buildout, Package
-        packages = [Package('package1', '1.0'), Package('package2', '1.1')]
+        from whiskers.models import Buildout, Package, Version
+        packages = [Package('package1', Version('1.0')), Package('package2',
+                            Version('1.1'))]
         buildout = Buildout('buildout', packages=packages)
         session.add(buildout)
         session.flush()
@@ -143,9 +145,9 @@ class TestBuildoutsView(unittest.TestCase):
         return buildouts_view(request)
 
     def test_it(self):
-        from whiskers.models import Buildout, Package
+        from whiskers.models import Buildout, Package, Version
         request = testing.DummyRequest()
-        buildout = Buildout('buildout1', [Package('package1','1.0')])
+        buildout = Buildout('buildout1', [Package('package1',Version('1.0'))])
         self.session.add(buildout)
         _registerRoutes(self.config)
         info = self._callFUT(request)
@@ -192,11 +194,11 @@ class AddBuildoutTests(unittest.TestCase):
         # First we add default data and check it's there
         self.add_buildout()
         buildout = self.session.query(Buildout).filter_by(name='test').one()
-        packages = [(i.name, i.version) for i in buildout.packages]
+        packages = [(i.name, i.version.version) for i in buildout.packages]
         self.assertTrue((u'distribute', u'0.6.24') in packages)
         # Lets update our data
         test_data['packages'][0]['version'] = '0.6.25'
         self.add_buildout(test_data)
         buildout = self.session.query(Buildout).filter_by(name='test').one()
-        packages = [(i.name, i.version) for i in buildout.packages]
+        packages = [(i.name, i.version.version) for i in buildout.packages]
         self.assertTrue((u'distribute', u'0.6.25') in packages)

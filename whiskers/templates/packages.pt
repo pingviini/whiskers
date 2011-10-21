@@ -8,14 +8,16 @@
   <div metal:fill-slot="content">
     <div id="bottom">
       <div class="bottom">
-      <div id="container">
-        <h1>CI tool settings</h1>
-        <p class="discreet">You can set your Jenkins/Hudson/other settings in here.</p>
-          <span tal:replace="structure form"/>
+        <div>
+          <div tal:repeat="package packages">
+            <p>
+              <a tal:attributes="href string: packages/${package.id}/view"
+                tal:content="package.name" />
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </tal:block>
-
 </html>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${request.static_url('whiskers:static/whiskers.css')}" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
     <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css'>
     <!-- Meta Tags -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- JavaScript -->
@@ -44,6 +45,9 @@
             <ul>
               <li>
                 <a href="${request.route_url('buildouts')}">View buildouts</a>
+              </li>
+              <li>
+                <a href="${request.route_url('packages')}">View packages</a>
               </li>
             </ul>
           </nav>

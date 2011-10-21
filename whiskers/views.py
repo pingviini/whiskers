@@ -2,7 +2,7 @@ import json
 import transaction
 from pyramid.response import Response
 from whiskers.models import DBSession
-from whiskers.models import Buildout, Package
+from whiskers.models import Buildout, Package, Version
 from pyramid.renderers import get_renderer
 
 
@@ -36,12 +36,19 @@ def add_buildout_view(request):
 def prepare_packages(session, packages):
     packages_list = list()
     for package in packages:
-        existing_package = session.query(Package).filter_by(name=package['name'],
-                                                   version=package['version'])
-        if not existing_package.count():
-            package_item = Package(package['name'], package['version'])
+        existing_version = session.query(Version).filter_by(version=package['version'])
+        existing_package = None
+        if existing_version.count():
+            version = existing_version.first()
+            existing_package = session.query(Package).filter_by(name=package['name'],
+                                                   version=version)
         else:
-            package_item = existing_package[0]
+            version = Version(package['version'])
+
+        if not existing_package:
+            package_item = Package(package['name'], version)
+        else:
+            package_item = existing_package.first()
         packages_list.append(package_item)
     return packages_list
 
@@ -64,3 +71,9 @@ def package_view(request):
     package_id = request.matchdict['package_id']
     package = session.query(Package).filter_by(id=int(package_id)).one()
     return {'package': package, 'project':'whiskers', 'main': main}
+
+def packages_view(request):
+    main = get_renderer('whiskers:templates/master.pt').implementation()
+    session = DBSession()
+    packages = session.query(Package).all()
+    return {'packages': packages, 'project':'whiskers', 'main': main}

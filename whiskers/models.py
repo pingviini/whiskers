@@ -23,6 +23,12 @@ bp_association_table = Table('buildout_package_association', Base.metadata,
     Column('package_id', Integer, ForeignKey('package.id'))
 )
 
+pv_association_table = Table('package_version_association', Base.metadata,
+    Column('package_id', Integer, ForeignKey('package.id')),
+    Column('version_id', Integer, ForeignKey('version.id'))
+)
+
+
 class Buildout(Base):
     implements(interfaces.IBuildout)
     __tablename__ = 'buildout'
@@ -42,10 +48,24 @@ class Package(Base):
     __tablename__ = 'package'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255))
-    version = Column(Unicode(20))
+    version_id = Column(Integer, ForeignKey('version.id'))
+    version = relationship("Version", backref="packages")
+    #relationship("Version", secondary=pv_association_table,
+    #                        backref="packages")
 
     def __init__(self, name, version):
         self.name = name
+        self.version = version
+
+
+class Version(Base):
+    implements(interfaces.IVersion)
+
+    __tablename__ = 'version'
+    id = Column(Integer, primary_key=True)
+    version = Column(Unicode(20))
+
+    def __init__(self, version):
         self.version = version
 
 

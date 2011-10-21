@@ -7,3 +7,7 @@ class IBuildout(Interface):
 
 class IPackage(Interface):
     """Package knows it's name and version."""
+
+
+class IVersion(Interface):
+    """Version"""

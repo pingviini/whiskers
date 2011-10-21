@@ -11,10 +11,10 @@
         <h1 tal:content="string: ${buildout.name}"/>
         <div>
           <div tal:repeat="package buildout.packages">
-            <a href="/packages/${package.id}/view">
+            <a href="${request.route_url('packages')}/${package.id}/view">
               <span tal:content="string: ${package.name}" />
               - 
-              <span tal:content="string: ${package.version}" />
+              <span tal:content="string: ${package.version.version}" />
             </a>
           </div>
         </div>

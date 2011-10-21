@@ -8,11 +8,11 @@
   <div metal:fill-slot="content">
     <div id="bottom">
       <div class="bottom">
-        <h1 tal:content="string: ${package.name} - ${package.version}"/>
+        <h1 tal:content="string: ${package.name} - ${package.version.version}"/>
         <div>
           <p>This package is used by following buildouts</p>
           <div tal:repeat="buildout package.buildouts">
-            <a href="/buildouts/${buildout.id}/view">
+            <a href="${request.route_url('buildouts')}/${buildout.id}/view">
               <span tal:content="string: ${buildout.name}" />
             </a>
           </div>
