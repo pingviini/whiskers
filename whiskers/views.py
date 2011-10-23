@@ -63,14 +63,29 @@ def buildout_view(request):
     session = DBSession()
     buildout_id = request.matchdict['buildout_id']
     buildout = session.query(Buildout).filter_by(id=int(buildout_id)).one()
-    return {'buildout': buildout, 'project':'whiskers', 'main': main}
+    packages = session.query(Package).join(Package.buildouts).filter(Buildout.id==1).order_by(Package.name).all()
+    return {'buildout': buildout, 'main': main, 'packages': packages}
 
 def package_view(request):
     main = get_renderer('whiskers:templates/master.pt').implementation()
     session = DBSession()
-    package_id = request.matchdict['package_id']
-    package = session.query(Package).filter_by(id=int(package_id)).one()
-    return {'package': package, 'project':'whiskers', 'main': main}
+    package_name = request.matchdict['package_name']
+    package_id = request.matchdict['id']
+    results = session.query(Package).filter_by(name=package_name)
+    all_packages = results.all()
+
+    if len(package_id) > 0:
+        package = results.filter_by(id=int(package_id[0])).first()
+    else:
+        package = None
+    if results.count() > 1:
+        other_versions = True
+    else:
+        other_versions = False
+
+    return {'packages': all_packages, 'package': package,
+            'package_name': package_name, 'main': main,
+            'other_versions': other_versions}
 
 def packages_view(request):
     main = get_renderer('whiskers:templates/master.pt').implementation()

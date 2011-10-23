@@ -24,7 +24,7 @@ def main(global_config, **settings):
     config.add_view('whiskers.views.add_buildout_view',
                     route_name='add')
 
-    config.add_route('buildout_view', '/buildouts/{buildout_id}/view')
+    config.add_route('buildout_view', '/buildouts/{buildout_id}')
     config.add_view('whiskers.views.buildout_view',
                     route_name='buildout_view',
                     renderer='templates/buildout.pt')
@@ -34,7 +34,7 @@ def main(global_config, **settings):
                     route_name='packages',
                     renderer='templates/packages.pt')
 
-    config.add_route('package_view', '/packages/{package_id}/view')
+    config.add_route('package_view', '/packages/{package_name}*id')
     config.add_view('whiskers.views.package_view',
                     route_name='package_view',
                     renderer='templates/package.pt')

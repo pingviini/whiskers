@@ -7,16 +7,14 @@
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
     <div id="bottom">
-      <div class="bottom">
-        <h1 tal:content="string: ${buildout.name}"/>
-        <div>
-          <div tal:repeat="package buildout.packages">
-            <a href="${request.route_url('packages')}/${package.id}/view">
-              <span tal:content="string: ${package.name}" />
-              - 
-              <span tal:content="string: ${package.version.version}" />
-            </a>
-          </div>
+      <h2 class="title" tal:content="string: ${buildout.name}"/>
+      <div class="listing">
+        <div tal:repeat="package packages">
+          <a href="${request.route_url('packages')}/${package.name}/${package.id}">
+            <span tal:content="string: ${package.name}" />
+            - 
+            <span tal:content="string: ${package.version.version}" />
+          </a>
         </div>
       </div>
     </div>

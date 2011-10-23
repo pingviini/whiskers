@@ -7,19 +7,11 @@
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
     <div id="bottom">
-      <div class="bottom">
-        <div>
-          <div tal:repeat="buildout buildouts">
-            <p>
-              <a class="delete" style="font-size:70%;color:red;" 
-                tal:attributes="href string: buildouts/${buildout.id}/delete">
-                  [Delete]
-              </a>
-              <a tal:attributes="href string: buildouts/${buildout.id}/view"
-                tal:content="buildout.name" />
-            </p>
-          </div>
-        </div>
+      <div tal:repeat="buildout buildouts">
+        <p>
+          <a tal:attributes="href string: buildouts/${buildout.id}"
+            tal:content="buildout.name" />
+        </p>
       </div>
     </div>
   </div>
