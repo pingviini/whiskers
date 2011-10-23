@@ -63,7 +63,8 @@ def buildout_view(request):
     session = DBSession()
     buildout_id = request.matchdict['buildout_id']
     buildout = session.query(Buildout).filter_by(id=int(buildout_id)).one()
-    packages = session.query(Package).join(Package.buildouts).filter(Buildout.id==1).order_by(Package.name).all()
+    packages = session.query(Package).join(Package.buildouts).filter(
+                    Buildout.id==buildout_id).order_by(Package.name).all()
     return {'buildout': buildout, 'main': main, 'packages': packages}
 
 def package_view(request):
