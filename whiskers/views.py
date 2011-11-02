@@ -52,11 +52,13 @@ def prepare_packages(session, packages):
         packages_list.append(package_item)
     return packages_list
 
+
 def buildouts_view(request):
     main = get_renderer('whiskers:templates/master.pt').implementation()
     session = DBSession()
-    buildouts = session.query(Buildout).all()
+    buildouts = session.query(Buildout).order_by(Buildout.name).all()
     return {'buildouts': buildouts, 'project':'whiskers', 'main': main}
+
 
 def buildout_view(request):
     main = get_renderer('whiskers:templates/master.pt').implementation()
