@@ -93,5 +93,5 @@ def package_view(request):
 def packages_view(request):
     main = get_renderer('whiskers:templates/master.pt').implementation()
     session = DBSession()
-    packages = session.query(Package).all()
+    packages = session.query(Package).group_by(Package.name).all()
     return {'packages': packages, 'project':'whiskers', 'main': main}
