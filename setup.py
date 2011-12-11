@@ -12,8 +12,8 @@ requires = [
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
-    'pyramid_debugtoolbar',
     'zope.sqlalchemy',
+    'Paste'
     ]
 
 if sys.version_info[:3] < (2,5,0):
@@ -42,5 +42,4 @@ setup(name='whiskers',
       [paste.app_factory]
       main = whiskers:main
       """,
-      paster_plugins=['pyramid'],
       )

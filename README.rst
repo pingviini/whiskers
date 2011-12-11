@@ -20,6 +20,15 @@ versions. Now you make an critical fix to some custom package and you need to
 know which buildouts you have to update. Whikers helps you here by knowing what
 is required and where.
 
+Installation using virtualenv
+-----------------------------
+
+    virtualenv whiskers --no-site-packages
+    cd whiskers
+    bin/pip install whiskers
+    wget https://github.com/pingviini/whiskers/raw/master/production.ini
+    bin/pserve production.ini
+
 Future
 ------
 
