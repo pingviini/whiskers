@@ -29,7 +29,13 @@ body {
 
 #top h1 {
     margin-top: 8pt;
-    font-size:60px;
+    font-size:4em;
+    letter-spacing:-2pt;
+}
+
+#top h1 a, a:hover, a:visited {
+    text-decoration: none;
+    color: #000;
 }
 
 .logo-text-discreet {

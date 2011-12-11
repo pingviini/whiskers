@@ -8,41 +8,28 @@
   <div metal:fill-slot="content">
     <div id="bottom">
       <div class="bottom">
-        <div id="left" class="align-right">
-          <h2>Search documentation</h2>
-          <form method="get" action="http://docs.pylonsproject.org/projects/pyramid/current/search.html">
-                <input type="text" id="q" name="q" value="" />
-                <input type="submit" id="x" value="Go" />
-            </form>
-        </div>
-        <div id="right" class="align-left">
-          <h2>Pyramid links</h2>
-          <ul class="links">
-            <li>
-              <a href="http://pylonsproject.org">Pylons Website</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#narrative-documentation">Narrative Documentation</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#api-documentation">API Documentation</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#tutorials">Tutorials</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#change-history">Change History</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#sample-applications">Sample Applications</a>
-            </li>
-            <li>
-              <a href="http://docs.pylonsproject.org/projects/pyramid/current/#support-and-development">Support and Development</a>
-            </li>
-            <li>
-              <a href="irc://irc.freenode.net#pyramid">IRC Channel</a>
-            </li>
-            </ul>
+        <h1>Whiskers HOWTO</h1>
+        <div class="instructions">
+          <p>To use whiskers you'll need to add following configuration to
+             your buildout.cfg:
+          </p>
+          <pre>
+
+            [buildout]
+            ...
+            extensions = buildout.sendpickedversions
+            whiskers-url = http://example.com/buildouts/add
+            ...
+          </pre>
+
+          <p>
+            That's it. Run buildout and it will pull
+            buildout.sendpickedversions which is used to parse packages
+            buildout is going to get. After everything is done
+            buildout.sendpickedversions sends the package
+            data to whiskers-url you specified. Whiskers will take care of
+            the rest.
+          </p>
         </div>
       </div>
     </div>

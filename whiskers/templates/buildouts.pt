@@ -6,13 +6,11 @@
 
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
-    <div id="bottom">
-      <div tal:repeat="buildout buildouts">
-        <p>
-          <a tal:attributes="href string: buildouts/${buildout.id}"
+    <div id="bottom" class="listing">
+      <p tal:repeat="buildout buildouts">
+        <a tal:attributes="href string: buildouts/${buildout.id}"
             tal:content="buildout.name" />
-        </p>
-      </div>
+      </p>
     </div>
   </div>
 </tal:block>
