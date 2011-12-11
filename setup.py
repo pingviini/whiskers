@@ -32,7 +32,7 @@ setup(name='whiskers',
       author='Jukka Ojaniemi',
       author_email='jukka.ojaniemi@gmail.com',
       url='http://github.com/pingviini/whiskers',
-      keywords='web wsgi bfg pylons pyramid buildout',
+      keywords='whiskers buildout pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
@@ -44,4 +44,3 @@ setup(name='whiskers',
       """,
       paster_plugins=['pyramid'],
       )
-
