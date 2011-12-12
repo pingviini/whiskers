@@ -23,6 +23,8 @@ is required and where.
 Installation using virtualenv
 -----------------------------
 
+::
+
     virtualenv whiskers --no-site-packages
     cd whiskers
     bin/pip install whiskers
