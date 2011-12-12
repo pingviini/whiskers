@@ -5,3 +5,5 @@
 Data.*
 .coverage
 *.db
+*.db-journal
+dist
