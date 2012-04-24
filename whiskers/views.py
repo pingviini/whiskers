@@ -45,7 +45,7 @@ def prepare_packages(session, packages):
         else:
             version = Version(package['version'])
 
-        if not existing_package:
+        if not existing_package.count():
             package_item = Package(package['name'], version)
         else:
             package_item = existing_package.first()

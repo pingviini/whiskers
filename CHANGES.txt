@@ -1,3 +1,10 @@
+0.2 (unreleased)
+----------------
+
+- Fix issue #1: Not all packages are shown.
+  [markvl]
+
+
 0.1 (2011-12-11)
 ----------------
 
