@@ -21,16 +21,18 @@
         </ul>
       </div>
 
-      <div tal:condition="not: package" tal:repeat="package packages" class="package-details">
-        <h3 tal:content="string:Version ${package.version.version}" />
-        <p>This package is used by following buildouts:</p>
-        <ul>
-          <li tal:repeat="buildout package.buildouts">
-            <a href="${request.route_url('buildouts')}/${buildout.id}"
-               tal:content="string: ${buildout.name}" />
-          </li>
-        </ul>
-      </div>
+      <tal:packages tal:condition="not: package" tal:repeat="package packages">
+        <div tal:condition="package.buildouts" class="package-details">
+          <h3 tal:content="string:Version ${package.version.version}" />
+          <p>This package is used by following buildouts:</p>
+          <ul>
+            <li tal:repeat="buildout package.buildouts">
+              <a href="${request.route_url('buildouts')}/${buildout.id}"
+                 tal:content="string: ${buildout.name}" />
+            </li>
+          </ul>
+        </div>
+      </tal:packages>
     </div>
   </div>
 </tal:block>
