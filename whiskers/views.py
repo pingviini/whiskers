@@ -74,7 +74,8 @@ def package_view(request):
     session = DBSession()
     package_name = request.matchdict['package_name']
     package_id = request.matchdict['id']
-    results = session.query(Package).filter_by(name=package_name)
+    results = session.query(Package).join(Package.version).filter(
+        Package.name==package_name).order_by(Version.version)
     all_packages = results.all()
 
     if len(package_id) > 0:
