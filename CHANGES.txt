@@ -1,8 +1,10 @@
-0.2 (unreleased)
+0.2 (2012-04-28)
 ----------------
 
 - Fix issue #1: Not all packages are shown.
   [markvl]
+- Fixed how package versions are sorted.
+  [markvl & pingviini]
 
 
 0.1 (2011-12-11)

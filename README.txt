@@ -39,9 +39,6 @@ plans involve at least following features:
 
 * Have a buildout history so you can follow what packages have
   been updated, added or removed.
-* Be a middleman between Mercurial & Jenkins to launch builds for all related
-  buildouts.
-* Create new buildout based on some existing buildout.
 
 .. _PyPI: http://pypi.python.org/pypi/buildout.sendpickedversions
 .. _Github: http://github.com/pingviini/buildout.sendpickedversions
