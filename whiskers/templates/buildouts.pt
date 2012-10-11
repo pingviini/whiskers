@@ -2,15 +2,17 @@
 <html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal">
 
-  <head metal:use-macro="main.macros['head']" />
+<head metal:use-macro="main.macros['head']" />
 
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
-    <div id="bottom" class="listing">
+    <div class="container">
+      <div class="listing">
       <p tal:repeat="buildout buildouts">
         <a tal:attributes="href string: buildouts/${buildout.id}"
             tal:content="buildout.name" />
       </p>
+      </div>
     </div>
   </div>
 </tal:block>

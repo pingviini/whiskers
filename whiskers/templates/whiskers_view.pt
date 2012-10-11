@@ -6,8 +6,7 @@
 
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
-    <div id="bottom">
-      <div class="bottom">
+    <div class="hero-unit">
         <h1>Whiskers HOWTO</h1>
         <div class="instructions">
           <p>To use whiskers you'll need to add following configuration to
@@ -16,6 +15,7 @@
           <pre>
 
             [buildout]
+            buildoutname = somename
             ...
             extensions = buildout.sendpickedversions
             whiskers-url = http://example.com/buildouts/add
@@ -32,7 +32,6 @@
           </p>
         </div>
       </div>
-    </div>
   </div>
 
 </tal:block>

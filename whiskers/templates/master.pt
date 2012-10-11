@@ -3,63 +3,72 @@
     xmlns:metal="http://xml.zope.org/namespaces/metal">
   <head metal:define-macro="head">
     <title>Whiskers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="keywords" content="whiskers" />
     <meta name="description" content="whiskers" />
     <link rel="shortcut icon" href="${request.static_url('whiskers:static/favicon.ico')}" />
     <link href='http://fonts.googleapis.com/css?family=Quicksand'
           rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="${request.static_url('whiskers:static/css/bootstrap.css')}"
+          type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="${request.static_url('whiskers:static/whiskers.css')}"
           type="text/css" media="screen" charset="utf-8" />
     <!-- Meta Tags -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- JavaScript
     <script type="text/javascript"
-          src="deform_static/scripts/jquery-1.4.2.min.js"></script>
+            src="${request.static_url('whiskers:static/js/jquery-1.8.2.js')}"></script>
     <script type="text/javascript"
-          src="deform_static/scripts/deform.js"></script>
-    -->
+            src="${request.static_url('whiskers:static/js/bootstrap.js')}"></script>
 
-    <!-- CSS -->
-    <!--<link rel="stylesheet" href="deform_static/css/form.css" type="text/css" />-->
     <!--[if lte IE 6]>
     <link rel="stylesheet" href="${request.static_url('whiskers:static/ie6.css')}" type="text/css" media="screen" charset="utf-8" />
+    <![endif]-->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <tal:block metal:define-slot="custom-head" />
   </head>
 
   <body metal:define-macro="body">
-    <div id="wrap">
-    <div metal:define-slot="header">
-      <div id="top" class="align-center">
-        <h1>
-          <a href="/" title="Whiskers front page">Whiskers</a></h1>
-        <p class="logo-text-discreet">
-          "Vibrissae (singular: vibrissa), or whiskers, are specialized hairs
-          (or, in certain bird species, specialized feathers) usually
-          employed for tactile sensation."
-        </p>
-      </div>
-      <div id="middle">
-        <div class="middle align-center">
-          <nav class="top-navigation">
-            <ul>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Whiskers</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
               <li>
                 <a href="${request.route_url('buildouts')}">Buildouts</a>
               </li>
               <li>
                 <a href="${request.route_url('packages')}">Packages</a>
               </li>
+              <li>
+                <a href="#about">About</a>
+              </li>
             </ul>
-          </nav>
+          </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-    <div metal:define-slot="content">
+
+    <div class="row">
+      <div metal:define-slot="header">
+      </div>
+      <div metal:define-slot="content">
+      </div>
     </div>
-    </div>
-    <div id="footer" class="align-center">
-      <div class="footer">&copy; Jukka Ojaniemi, 2011</div>
-    </div>
+
+    <!-- <div class="row"> -->
+    <!--   <div class="span12 footer">&copy; Jukka Ojaniemi, 2011</div> -->
+    <!-- </div> -->
   </body>
 </html>

@@ -6,7 +6,7 @@
 
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
-    <div id="bottom">
+    <div class="container">
       <h2 class="title" tal:content="string: ${package_name}"/>
 
       <div tal:condition="package" class="package-details">
