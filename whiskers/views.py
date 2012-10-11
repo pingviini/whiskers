@@ -4,6 +4,7 @@ from pyramid.response import Response
 from whiskers.models import DBSession
 from whiskers.models import Buildout, Package, Version
 from pyramid.renderers import get_renderer
+from pkg_resources import parse_version
 
 
 def whiskers_view(request):
@@ -97,7 +98,8 @@ def package_view(request):
 
 
 def sort_versionnumbers(packages):
-    packages.sort(key=lambda x: [int(y) for y in x.version.version.split('.')])
+    packages.sort(key=lambda x: [
+        parse_version(x.version.version)])
     return packages
 
 
