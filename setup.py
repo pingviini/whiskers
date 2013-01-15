@@ -1,5 +1,4 @@
 import os
-import sys
 
 from setuptools import setup, find_packages
 
@@ -14,33 +13,32 @@ requires = [
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
-    'Paste'
+    'waitress',
     ]
 
-if sys.version_info[:3] < (2,5,0):
-    requires.append('pysqlite')
-
 setup(name='whiskers',
-      version='0.2',
-      description='Whiskers stores package and version data from buildouts.',
-      long_description=README + '\n\n' +  CHANGES,
+      version='0.0',
+      description='whiskers',
+      long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
-        "Framework :: Pylons",
+        "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
-      author='Jukka Ojaniemi',
-      author_email='jukka.ojaniemi@gmail.com',
-      url='http://github.com/pingviini/whiskers',
-      keywords='whiskers buildout pyramid',
+      author='',
+      author_email='',
+      url='',
+      keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
       test_suite='whiskers',
-      install_requires = requires,
-      entry_points = """\
+      install_requires=requires,
+      entry_points="""\
       [paste.app_factory]
       main = whiskers:main
+      [console_scripts]
+      initialize_whiskers_db = whiskers.scripts.initializedb:main
       """,
       )

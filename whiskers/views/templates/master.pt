@@ -45,14 +45,17 @@
           <a class="brand" href="/">Whiskers</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              <li tal:attributes="class python:request.current_route_url() != request.route_url('hosts') or 'active'">
+                <a href="${request.route_url('hosts')}">Hosts</a>
+              </li>
               <li tal:attributes="class python:request.current_route_url() != request.route_url('buildouts') or 'active'">
                 <a href="${request.route_url('buildouts')}">Buildouts</a>
               </li>
               <li tal:attributes="class python:request.current_route_url() != request.route_url('packages') or 'active'">
                 <a href="${request.route_url('packages')}">Packages</a>
               </li>
-              <li>
-                <a href="#about">About</a>
+              <li tal:attributes="class python:request.current_route_url() != request.route_url('about') or 'active'">
+                <a href="${request.route_url('about')}">About</a>
               </li>
             </ul>
           </div><!--/.nav-collapse -->

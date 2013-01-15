@@ -1,0 +1,13 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+  </div>
+
+</tal:block>
+</html>
+
