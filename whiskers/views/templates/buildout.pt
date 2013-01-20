@@ -8,11 +8,33 @@
   <div metal:fill-slot="content">
     <div class="container">
       <h2 class="title">${buildout.name}</h2>
-      <h4>Buildout contains following packages</h4>
+      <div class="config">
+        <a href="#buildoutConfig" role="button" class="" data-toggle="modal">Show buildout config</a>
+
+        <div id="buildoutConfig" class="modal hide fade" tabindex="-1"
+             role="dialog" aria-labelledby="buildoutConfigLabel"
+             aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="buildoutConfigLabel">Buildout config</h3>
+          </div>
+          <div class="modal-body">
+            <dl class="dl-horizontal">
+              <tal:block tal:repeat="key config.keys()">
+                <tal:block tal:condition="config[key]">
+                <dt tal:content="key" />
+                <dd tal:content="config[key]"></dd>
+                </tal:block>
+              </tal:block>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <h4>Following packages are available to buildout environment</h4>
 
       <div class="row">
         <div class="listing">
-          <p tal:repeat="package packages">
+          <p tal:repeat="package buildout.packages">
             <a href="${request.route_url('packages')}/${package.name}/${package.id}">
               <span tal:content="string: ${package.name}" />
               <tal:block tal:condition="package.version">

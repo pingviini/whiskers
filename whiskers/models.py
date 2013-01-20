@@ -1,14 +1,18 @@
-from sqlalchemy import Column
-from sqlalchemy import Integer
-from sqlalchemy import Unicode
-from sqlalchemy import ForeignKey
-from sqlalchemy import Table
+from sqlalchemy import (
+    Column,
+    Text,
+    Integer,
+    Unicode,
+    ForeignKey,
+    Table)
 
 from sqlalchemy.ext.declarative import declarative_base
 
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import (
+    scoped_session,
+    sessionmaker,
+    relationship,
+    backref)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 from zope.interface import implementer
@@ -19,7 +23,9 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-buildoutpackage_table = Table('buildoutpackage_table', Base.metadata,
+buildoutpackage_table = Table(
+    'buildoutpackage_table',
+    Base.metadata,
     Column('buildout_id', Integer, ForeignKey('buildout.id')),
     Column('package_id', Integer, ForeignKey('package.id'))
 )
@@ -29,7 +35,9 @@ buildoutpackage_table = Table('buildoutpackage_table', Base.metadata,
 #     Column('version_id', Integer, ForeignKey('version.id'))
 # )
 
-packagerequires_table = Table('packagerequires_table', Base.metadata,
+packagerequires_table = Table(
+    'packagerequires_table',
+    Base.metadata,
     Column('package_id', Integer, ForeignKey('package.id')),
     Column('required_package_id', Integer, ForeignKey('package.id'))
 )
@@ -46,11 +54,13 @@ class Buildout(Base):
     host = relationship("Host", backref=backref('buildouts', order_by=id))
     packages = relationship("Package", secondary=buildoutpackage_table,
                             backref=backref('buildouts', order_by=id))
+    config = Column(Text)
 
-    def __init__(self, name, path=None, host=None, packages=None):
+    def __init__(self, name, path=None, host=None, packages=None, config=None):
         self.name = name
         self.host = host
         self.packages = packages
+        self.config = config
 
 
 @implementer(interfaces.IHost)
@@ -78,11 +88,12 @@ class Package(Base):
     version_id = Column(Integer, ForeignKey("version.id"))
     version = relationship("Version", backref="packages")
     name = Column(Unicode(255))
-    requires = relationship("Package",
-            secondary=packagerequires_table,
-            primaryjoin=id==packagerequires_table.c.package_id,
-            secondaryjoin=id==packagerequires_table.c.required_package_id,
-            backref="required_by")
+    requires = relationship(
+        "Package",
+        secondary=packagerequires_table,
+        primaryjoin=id == packagerequires_table.c.package_id,
+        secondaryjoin=id == packagerequires_table.c.required_package_id,
+        backref="required_by")
 
     def __init__(self, name, version=None, requires=None):
         self.name = name

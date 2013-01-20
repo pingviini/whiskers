@@ -25,31 +25,30 @@ class BuildoutView(object):
         """Add a new buildout to database."""
 
         try:
-            data = JsonDataWrapper(self.request.params['data'])
+            self.jsondata = JsonDataWrapper(self.request.params['data'])
         except KeyError:
             return Response('No data. Nothing added.')
 
-        host = self.get_host(data.hostname)
+        host = self.get_host(self.jsondata.hostname)
 
         if host:
-            buildout = self.get_existing_buildout(data)
+            buildout = self.get_existing_buildout(self.jsondata)
             if buildout:
                 # self.update(buildout, data)
                 pass
             else:
-                self.add_buildout(data, host)
+                self.add_buildout(self.jsondata, host)
         else:
-            host = self.add_host(data.hostname)
-            buildout = self.add_buildout(data, host)
+            host = self.add_host(self.jsondata.hostname)
+            buildout = self.add_buildout(self.jsondata, host)
 
         return Response('OK. Added buildout')
 
     def add_package(self, data):
         package = Package(data['name'])
 
-        if 'version' in data:
-            version = self.get_version(data)
-            package.version = version
+        version = self.get_version(data)
+        package.version = version
 
         if 'requirements' in data:
             requirements = []
@@ -62,8 +61,17 @@ class BuildoutView(object):
 
     def get_package(self, package):
         try:
-            package = self.session.query(Package).\
-                filter(Package.name==package['name']).one()
+            if not 'version' in package:
+                try:
+                    version = self.jsondata.versionmap[package['name']]
+                except KeyError:
+                    version = 'stdlib'
+            else:
+                version = package['version']
+
+            package = self.session.query(Package).join(Package.version).\
+                filter(Package.name == package['name']).\
+                filter(Version.version == version).one()
         except NoResultFound:
             package = self.add_package(package)
 
@@ -71,8 +79,14 @@ class BuildoutView(object):
 
     def get_version(self, data):
         try:
+            if not 'version' in data:
+                try:
+                    data['version'] = self.jsondata.versionmap[data['name']]
+                except KeyError:
+                    # maybe we have standardlib requirement (eg. unittest2)
+                    data['version'] = 'stdlib'
             version = self.session.query(Version).filter(
-                Version.version==data['version']).one()
+                Version.version == data['version']).one()
         except NoResultFound:
             version = self.add_version(data)
 
@@ -97,14 +111,15 @@ class BuildoutView(object):
         for package in data.packages:
             packages.append(self.get_package(package))
 
-        buildout = Buildout(data.name, data.path, host, packages)
+        buildout = Buildout(data.name, data.path, host, packages,
+                            data.config)
         self.session.add(buildout)
         return buildout
 
     def get_host(self, hostname):
         """Return host object if found."""
         try:
-            host = self.session.query(Host).filter(Host.name==hostname).one()
+            host = self.session.query(Host).filter(Host.name == hostname).one()
             return host
         except NoResultFound:
             return None
@@ -113,8 +128,8 @@ class BuildoutView(object):
         """Return buildout if it already exists in db."""
         try:
             buildout = self.session.query(Host).join(Host.buildouts).\
-                filter(Host.name==data.hostname).\
-                filter(Buildout.name==data.name).one()
+                filter(Host.name == data.hostname).\
+                filter(Buildout.name == data.name).one()
             return buildout
         except NoResultFound:
             return None
@@ -141,9 +156,10 @@ class BuildoutView(object):
         buildout = self.session.query(Buildout).filter_by(
             id=int(buildout_id)).one()
         packages = self.session.query(Package).join(Package.buildouts).filter(
-            Buildout.id==buildout_id).order_by(Package.name).all()
+            Buildout.id == buildout_id).order_by(Package.name).all()
+        config = json.loads(buildout.config)
 
-        return {'buildout': buildout, 'main': self.main, 'packages': packages}
+        return {'buildout': buildout, 'main': self.main, 'config': config}
 
     def update(self, buildout_id):
         """Update existing buildout."""
@@ -229,7 +245,7 @@ class JsonDataWrapper(object):
             yield {'name': package,
                    'version': self.data['packages'][package]['version'],
                    'requirements':
-                        self.data['packages'][package]['requirements']}
+                   self.data['packages'][package]['requirements']}
 
     @property
     def executable(self):
@@ -242,3 +258,14 @@ class JsonDataWrapper(object):
     @property
     def newest(self):
         return self.data.get('newest', None)
+
+    @property
+    def versionmap(self):
+        return self.data.get('versionmap', None)
+
+    @property
+    def config(self):
+        tmp = self.data.copy()
+        tmp.pop('packages')
+        tmp.pop('versionmap')
+        return json.dumps(tmp)
