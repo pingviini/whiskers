@@ -56,11 +56,13 @@ class Buildout(Base):
                             backref=backref('buildouts', order_by=id))
     config = Column(Text)
 
-    def __init__(self, name, path=None, host=None, packages=None, config=None):
+    def __init__(self, name, host, packages=None, config=None):
         self.name = name
         self.host = host
-        self.packages = packages
-        self.config = config
+        if packages:
+            self.packages = packages
+        if config:
+            self.config = config
 
 
 @implementer(interfaces.IHost)
@@ -128,22 +130,3 @@ def initialize_sql(engine):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     Base.metadata.create_all(engine)
-    # with transaction.manager:
-    #     host = Host('localhost')
-    #     host2 = Host('zsplones2.cc.jyu.fi')
-    #     DBSession.add(host)
-    #     DBSession.add(host2)
-    #     package2 = Package(u'package2', Version('1.1', '<'))
-    #     package3 = Package(u'package3', Version('1.5', '<'))
-    #     package4 = Package(u'package4', Version('1.2', '>='))
-    #     DBSession.add(package2)
-    #     DBSession.add(package3)
-    #     DBSession.add(package4)
-    #     package1 = Package('package1', Version('1.0'), [package2,package4])
-    #     package5 = Package('package5', Version('1.6'), [package3,package4])
-    #     DBSession.add(package1)
-    #     DBSession.add(package5)
-    #     buildout = Buildout('test', host, [package1])
-    #     buildout = Buildout('bout', host2, [package5])
-    #     DBSession.add(buildout)
-    #     DBSession.flush()
