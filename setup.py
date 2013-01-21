@@ -14,26 +14,26 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
-    ]
+]
 
 setup(name='whiskers',
-      version='0.0',
+      version='1.0a1',
       description='whiskers',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Programming Language :: Python",
-        "Framework :: Pyramid",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
-      author='',
-      author_email='',
-      url='',
+          "Programming Language :: Python",
+          "Framework :: Pyramid",
+          "Topic :: Internet :: WWW/HTTP",
+          "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+      ],
+      author='Jukka Ojaniemi',
+      author_email='jukka.ojaniemi@gmail.com',
+      url='https://github.com/pingviini/whiskers',
       keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      test_suite='whiskers',
+      test_suite='whiskers.tests',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
