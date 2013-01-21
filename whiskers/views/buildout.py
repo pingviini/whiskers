@@ -20,6 +20,19 @@ class BuildoutView(object):
         self.request = request
         self.session = DBSession()
 
+    @view_config(route_name='buildouts_view')
+    def buildouts_view(self):
+        """Main view for whiskers/buildouts."""
+
+        return {'buildouts': self.buildouts,
+                'project': 'whiskers',
+                'main': self.main}
+
+    @property
+    def buildouts(self):
+        """Return all buildouts"""
+        return self.session.query(Buildout).order_by(Buildout.name).all()
+
     @view_config(route_name='add_buildout')
     def add_buildout_view(self):
         """Add a new buildout to database."""
