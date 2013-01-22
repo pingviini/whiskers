@@ -20,7 +20,7 @@ class BuildoutView(object):
         self.request = request
         self.session = DBSession()
 
-    @view_config(route_name='buildouts_view')
+    @view_config(route_name='buildouts')
     def buildouts_view(self):
         """Main view for whiskers/buildouts."""
 

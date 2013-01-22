@@ -184,8 +184,8 @@ class InitializeSqlTests(unittest.TestCase):
 
         buildout = DBSession.query(Buildout).one()
         self.assertEqual(buildout.name, 'buildout')
-        packages = [u'package1', u'package2']
-        versions = [u'1.0', u'2.0']
+        packages = ['package1', 'package2']
+        versions = ['1.0', '2.0']
         buildout_packages = [i.name for i in buildout.packages]
         buildout_versions = [i.version.version for i in buildout.packages]
 

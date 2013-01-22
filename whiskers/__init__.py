@@ -18,9 +18,9 @@ def main(global_config, **settings):
                     renderer='views/templates/main.pt')
 
     config.add_route('buildouts', '/buildouts')
-    config.add_view('whiskers.views.buildouts.buildouts_view',
-                    route_name='buildouts',
-                    renderer='views/templates/buildouts.pt')
+    # config.add_view('whiskers.views.buildout.buildouts_view',
+    #                 route_name='buildouts',
+    #                 renderer='views/templates/buildouts.pt')
 
     config.add_route('add_buildout', '/buildouts/add')
     # config.add_view('whiskers.views.buildout.add_buildout_view',
