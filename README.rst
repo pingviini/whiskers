@@ -34,7 +34,7 @@ Pip
 
 ::
 
-    virtualenv --no-site-packages -p /path/to/python3.3
+    virtualenv --no-site-packages -p /path/to/python3.3 whiskers
     cd whiskers
     bin/pip install whiskers
     wget https://github.com/pingviini/whiskers/raw/master/production.ini
@@ -44,6 +44,7 @@ Github
 ------
 
 ::
+
     virtualenv --no-site-packages -p /path/to/python3.3 whiskers
     git clone git://github.com/pingviini/whiskers.git
     cd whiskers
