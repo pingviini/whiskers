@@ -191,8 +191,8 @@ class InitializeSqlTests(unittest.TestCase):
 
         self.assertEqual(packages.sort(), buildout_packages.sort())
         self.assertEqual(versions.sort(), buildout_versions.sort())
-        p1 = DBSession.query(Package).filter(Package.name == u'package2').one()
-        self.assertEqual(p1.requires[0].name, u'req-package-1')
+        p1 = DBSession.query(Package).filter(Package.name == 'package2').one()
+        self.assertEqual(p1.requires[0].name, 'req-package-1')
         self.assertEqual(buildout.host.name, 'localhost')
 
 
@@ -264,14 +264,14 @@ class InitializeSqlTests(unittest.TestCase):
 #         _registerRoutes(self.config)
 #         request = testing.DummyRequest()
 #         info = self._callFUT(request)
-#         self.assertEqual(info.status, u'200 OK')
-#         self.assertEqual(info.text, u'No data. Nothing added.')
+#         self.assertEqual(info.status, '200 OK')
+#         self.assertEqual(info.text, 'No data. Nothing added.')
 #
 #     def test_it_submitted(self):
 #         self.add_buildout()
 #         from whiskers.models import Buildout
 #         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         self.assertEqual(buildout.name, u'test')
+#         self.assertEqual(buildout.name, 'test')
 #         packages = [i.name for i in buildout.packages]
 #         for p in ['distribute', 'nose', 'zc.buildout', 'zc.recipe.egg']:
 #             self.assertTrue(p in packages)
@@ -282,10 +282,10 @@ class InitializeSqlTests(unittest.TestCase):
 #         self.add_buildout()
 #         buildout = self.session.query(Buildout).filter_by(name='test').one()
 #         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue((u'distribute', u'0.6.24') in packages)
+#         self.assertTrue(('distribute', '0.6.24') in packages)
 #         # Lets update our data
 #         test_data['packages'][0]['version'] = '0.6.25'
 #         self.add_buildout(test_data)
 #         buildout = self.session.query(Buildout).filter_by(name='test').one()
 #         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue((u'distribute', u'0.6.25') in packages)
+#         self.assertTrue(('distribute', '0.6.25') in packages)

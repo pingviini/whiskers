@@ -1,3 +1,4 @@
+========
 Whiskers
 ========
 
@@ -12,7 +13,7 @@ extension.
 .. image:: https://travis-ci.org/pingviini/whiskers.png?branch=refactor
 
 Reason behind Whiskers
-----------------------
+======================
 
 Why? Shortly to automate your workflow.
 
@@ -22,25 +23,33 @@ versions. Now you make an critical fix to some custom package and you need to
 know which buildouts you have to update. Whikers helps you here by knowing what
 is required and where.
 
-Installation using virtualenv
------------------------------
+Installation
+============
+
+Whiskers 1.x is developed with Python 3.3 and tested with Python 3.2.
+If you are for some reason tied to Python 2.x you can still use Whiskers 0.2.
+
+Pip
+---
 
 ::
 
-    virtualenv whiskers --no-site-packages
+    virtualenv --no-site-packages -p /path/to/python3.3
     cd whiskers
     bin/pip install whiskers
     wget https://github.com/pingviini/whiskers/raw/master/production.ini
     bin/pserve production.ini
 
-Future
+Github
 ------
 
-Whiskers is currently just storing buildout information. Future
-plans involve at least following features:
+::
+    virtualenv --no-site-packages -p /path/to/python3.3 whiskers
+    git clone git://github.com/pingviini/whiskers.git
+    cd whiskers
+    python setup.py install
+    bin/pserve production.ini
 
-* Have a buildout history so you can follow what packages have
-  been updated, added or removed.
 
 .. _PyPI: http://pypi.python.org/pypi/buildout.sendpickedversions
 .. _Github: http://github.com/pingviini/buildout.sendpickedversions
