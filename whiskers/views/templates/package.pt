@@ -7,18 +7,27 @@
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
     <div class="container">
-      <h2 class="title" tal:content="string: ${package_name}"/>
+      <h2 class="title">
+        ${package_name}
+      </h2>
 
       <div tal:condition="package" class="package-details">
-        <h3 tal:condition="package.version" tal:content="string:Version ${package.version.version}" />
-        <a class="all-versions" tal:condition="other_versions" href="${request.route_url('packages')}/${package_name}">(all versions)</a>
+        <h3 tal:condition="package.version">
+          ${package.version.version}
+        </h3>
+
+        <a class="all-versions" tal:condition="other_versions"
+           href="${request.route_url('packages')}/${package_name}">
+           (all versions)
+        </a>
 
         <div class="used_by" tal:condition="package.buildouts">
           <h5>This package is used by following buildouts:</h5>
           <ul>
             <li tal:repeat="buildout package.buildouts">
-              <a href="${request.route_url('buildouts')}/${buildout.id}"
-                 tal:content="string: ${buildout.name}" />
+              <a href="${request.route_url('buildouts')}/${buildout.id}">
+                ${buildout.name} - ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+              </a>
             </li>
           </ul>
         </div>
@@ -46,16 +55,21 @@
         </div>
       </div>
 
-      <tal:packages tal:condition="not: package" tal:repeat="package packages">
-        <div tal:condition="package.buildouts" class="package-details">
-          <h3 tal:content="string:Version ${package.version.version}" />
+      <tal:packages tal:condition="not: package" tal:repeat="result packages">
+        <div tal:condition="result.buildouts" class="package-details">
+          <h3>${result.version.version}</h3>
           <p>This package is used by following buildouts:</p>
           <ul>
-            <li tal:repeat="buildout package.buildouts">
-              <a href="${request.route_url('buildouts')}/${buildout.id}"
-                 tal:content="string: ${buildout.name}" />
+            <li tal:repeat="buildout result.buildouts">
+              <a href="${request.route_url('buildouts')}/${buildout.id}">
+                ${buildout.name} - ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+              </a>
             </li>
           </ul>
+        </div>
+        <div tal:condition="not: result.buildouts" class="package-details">
+          <h3>${result.version.version}</h3>
+          <p>This package is not used by any buildouts anymore.</p>
         </div>
       </tal:packages>
     </div>

@@ -8,12 +8,21 @@
   <div metal:fill-slot="content">
     <div class="container">
       <h3>${host.name}</h3>
-      <h6>Host contains following buildouts</h6>
-      <div class="listing">
-      <p tal:repeat="buildout host.buildouts">
-        <a tal:attributes="href string: ${request.route_url('buildouts')}/${buildout.id}"
-            tal:content="buildout.name" />
-      </p>
+      <hr />
+
+      <div class="row">
+        <tal:block tal:repeat="buildout host.buildouts">
+        <div class="span2">
+          <h4>
+            <a href="${request.route_url('buildouts')}/${buildout.id}">
+              ${buildout.name}
+            </a>
+          </h4>
+          <small>Date: <span>${buildout.datetime.strftime("%Y-%m-%d")}</span></small><br />
+          <small>Time: <span>${buildout.datetime.strftime("%H:%M:%S")}</span></small><br />
+          <small>Packages: <span tal:content="len(buildout.packages)" /></small>
+        </div>
+        </tal:block>
       </div>
     </div>
   </div>

@@ -1,15 +1,10 @@
-import json
-
-from pyramid.view import view_config
-from pyramid.response import Response
+from sqlalchemy.sql.expression import func
 from pyramid.renderers import get_renderer
-from sqlalchemy.orm.exc import NoResultFound
 from whiskers.models import DBSession
-from whiskers.models import Host
+from whiskers.models import Host, Buildout
 
 
 class HostsView(object):
-    """Hosts views."""
 
     def __init__(self, request):
         self.main = get_renderer(
@@ -17,20 +12,28 @@ class HostsView(object):
         self.request = request
         self.session = DBSession()
 
-    @view_config(route_name='hosts',
-                 renderer='templates/hosts.pt')
-    def hosts_view(self):
+    def __call__(self):
         """Hosts main view."""
-        hosts = self.get_hosts()
-        return {'hosts': hosts, 'project': 'whiskers', 'main': self.main}
+        query = self.get_hosts_info()
+        return {'results': query, 'main': self.main}
 
-    def get_host(self, host):
-        """Return host"""
-        result = DBSession.query(Host).filter_by(name=host)
-        if result.count() > 0:
-            return result
-        else:
-            return None
+    def host_view(self):
+        host_id = self.request.matchdict['host_id']
+        host = Host.get_by_id(int(host_id))
+        return {'host': host, 'main': self.main}
 
-    def get_hosts(self):
-        return self.session.query(Host).order_by(Host.name).all()
+    def get_hosts_info(self):
+        """Return list of dicts containing Host info."""
+
+        result_list = []
+
+        query = DBSession.query(Host, func.count(Buildout.id)).join(Buildout).\
+            filter(Host.id == Buildout.host).all()
+
+        for result in query:
+            tmp = {}
+            tmp['host'] = result[0]
+            tmp['count'] = result[1]
+            result_list.append(tmp)
+
+        return result_list

@@ -8,11 +8,21 @@
   <div metal:fill-slot="content">
     <div class="container">
       <h3>Hosts where buildouts are executed</h3>
-      <div class="listing">
-      <p tal:repeat="host hosts">
-        <a tal:attributes="href string: hosts/${host.id}"
-            tal:content="host.name" />
-      </p>
+      <hr />
+
+      <div class="row-fluid">
+        <div class="span4" tal:repeat="result results">
+          <h4>
+            <a href="${request.route_url('host', host_id=result.host.id)}">
+              ${result.host.name}
+            </a>
+          </h4>
+          <p tal:condition="result.count">
+            Contains information of
+            <span tal:omit-tag="" tal:content="result.count" />
+            buildouts.
+          </p>
+        </div>
       </div>
     </div>
   </div>

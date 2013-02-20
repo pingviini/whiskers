@@ -1,6 +1,5 @@
 import transaction
 import unittest
-import json
 import os
 
 from pyramid import testing
@@ -101,52 +100,26 @@ class BuildoutsViewTest(unittest.TestCase):
 class PackagesViewTests(unittest.TestCase):
 
     def setUp(self):
-        self.session = _initTestinDB()
-# class AddBuildoutTests(unittest.TestCase):
-#     def setUp(self):
-#         self.session = _initTestingDB()
-#         self.config = testing.setUp()
-#
-#     def tearDown(self):
-#         self.session.remove()
-#         testing.tearDown()
-#
-#     def _callFUT(self, request):
-#         from whiskers.views import add_buildout_view
-#         return add_buildout_view(request)
-#
-#     def add_buildout(self, test_data=test_data):
-#         _registerRoutes(self.config)
-#         request = testing.DummyRequest()
-#         request.params = {'data': json.dumps(test_data)}
-#         self._callFUT(request)
-#
-#     def test_it_nodata(self):
-#         _registerRoutes(self.config)
-#         request = testing.DummyRequest()
-#         info = self._callFUT(request)
-#         self.assertEqual(info.status, u'200 OK')
-#         self.assertEqual(info.text, u'No data. Nothing added.')
-#
-#     def test_it_submitted(self):
-#         self.add_buildout()
-#         from whiskers.models import Buildout
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         self.assertEqual(buildout.name, u'test')
-#         packages = [i.name for i in buildout.packages]
-#         for p in ['distribute', 'nose', 'zc.buildout', 'zc.recipe.egg']:
-#             self.assertTrue(p in packages)
-#
-#     def test_update_data(self):
-#         from whiskers.models import Buildout
-#         # First we add default data and check it's there
-#         self.add_buildout()
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue((u'distribute', u'0.6.24') in packages)
-#         # Lets update our data
-#         test_data['packages'][0]['version'] = '0.6.25'
-#         self.add_buildout(test_data)
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue((u'distribute', u'0.6.25') in packages)
+        self.session = _initTestingDB()
+
+    def _createDummyContent(self):
+        from whiskers.models import Package, Version
+        version = Version('1.0')
+        package = Package('req-package-1', version)
+        self.session.add(package)
+        self.session.flush()
+        transaction.commit()
+
+    def _callFUT(self, request):
+        from whiskers.views.packages import PackagesView
+        return PackagesView(request).package_view()
+
+    def test_it(self):
+        from sqlalchemy import create_engine
+        engine = create_engine('sqlite:///:memory:')
+        self._callFUT(engine)
+        self._createDummyContent()
+        _registerRoutes(self.config)
+        request = testing.DummyRequest()
+        info = self._callFUT(request)
+        import pdb; pdb.set_trace()

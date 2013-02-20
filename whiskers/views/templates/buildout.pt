@@ -7,7 +7,17 @@
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
     <div class="container">
-      <h2 class="title">${buildout.name}</h2>
+      <h2 class="title">Buildout name: ${buildout.name}</h2>
+      <dl>
+        <dt>Host</dt>
+        <dd>
+          <a href="${request.route_url('host', host_id=buildout.host.id)}">
+            ${buildout.host.name}
+          </a>
+        </dd>
+        <dt>Added or modified</dt>
+        <dd>${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}</dd>
+      </dl>
       <div class="config">
         <a href="#buildoutConfig" role="button" class="" data-toggle="modal">Show buildout config</a>
 
@@ -44,6 +54,31 @@
             </a>
           </p>
         </div>
+      </div>
+
+      <div tal:condition="new_buildouts">
+        <hr />
+        <h4>View new versions of this buildout</h4>
+        <ul tal:repeat="buildout new_buildouts">
+          <li>
+            <a href="${request.route_url('buildout_view', buildout_id=buildout.id)}">
+              ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div tal:condition="older_buildouts">
+        <hr />
+        <h4>View older versions of this buildout</h4>
+        <ul tal:repeat="buildout older_buildouts">
+          <li>
+            <a href="${request.route_url('buildout_view', buildout_id=buildout.id)}">
+              ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+            </a>
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>

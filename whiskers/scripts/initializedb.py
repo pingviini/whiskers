@@ -1,21 +1,21 @@
 import os
 import sys
-import transaction
+# import transaction
 
 from sqlalchemy import engine_from_config
 
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from ..models import (
     DBSession,
-    Host,
-    Buildout,
+    # Host,
+    # Buildout,
     # MyModel,
     Base,
-    )
+)
 
 
 def usage(argv):
@@ -34,9 +34,9 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
-    with transaction.manager:
-        model = Host('latitude')
-        DBSession.add(model)
-        buildout = Buildout('testbuildout', '/path/to/buildout', host=model,
-                            packages=[])
-        DBSession.add(buildout)
+    # with transaction.manager:
+    #     model = Host('latitude')
+    #     DBSession.add(model)
+    #     buildout = Buildout('testbuildout', '/path/to/buildout', host=model,
+    #                         packages=[])
+    #     DBSession.add(buildout)
