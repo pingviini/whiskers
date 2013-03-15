@@ -14,3 +14,6 @@ Tasks to do before releasing new version (not priorized in any way):
    http://web.utk.edu/~jplyon/sqlite/SQLite_optimization_FAQ.html)
  * Not whiskers related, but still important - support for zc.buildout 2.x in
    buildout.sendpickedversions.
+ * Settings for how many buildout versions we store.
+ * Buildouts view should show only one buildout version - there's room for
+   loading history via some ajaxy magic.

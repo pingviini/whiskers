@@ -14,6 +14,8 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
+    'cornice',
+    'Sphinx'
 ]
 
 setup(name='whiskers',
