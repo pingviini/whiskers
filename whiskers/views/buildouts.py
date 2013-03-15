@@ -81,7 +81,7 @@ class BuildoutsView(object):
                 version = Version.get_by_version(package_info['version']) or\
                     Version.add(package_info['version'], equation)
                 requirements = self.get_requirements(
-                    package_info['requirements'])
+                    package_info['requirements'], data.versionmap)
                 package = Package.add(package_info['name'],
                                       version,
                                       requirements)
@@ -94,18 +94,27 @@ class BuildoutsView(object):
         DBSession.add(buildout)
         return buildout
 
-    def get_requirements(self, requirements):
+    def get_requirements(self, requirements, versionmap):
         """Return list of package requirements."""
         packages = []
 
         for req in requirements:
             name = req.get('name')
             version = req.get('version')
+            # Below version related code is crap
+            # TODO: Clean the crap
+            if not version:
+                try:
+                    version = versionmap[name]
+                except KeyError:
+                    version = 'stdlib'
+            else:
+                if version != versionmap[name]:
+                    version = versionmap[name]
             package = Package.get_by_nameversion(name,
                                                  version)
             if not package:
                 equation = req.get('equation', None)
-                version = req.get('version', 'stdlib')
                 version = Version.get_by_version(version) or\
                     Version.add(version, equation)
                 package = Package.add(req['name'], version)
