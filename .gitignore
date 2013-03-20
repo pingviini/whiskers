@@ -7,3 +7,4 @@ Data.*
 *.db
 *.db-journal
 dist
+docs/build
