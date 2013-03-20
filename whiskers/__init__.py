@@ -59,5 +59,4 @@ def main(global_config, **settings):
     config.add_view(HostsView, route_name='host', attr="host_view",
                     renderer='views/templates/host.pt')
 
-    config.scan("whiskers.views.api")
     return config.make_wsgi_app()

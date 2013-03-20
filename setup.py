@@ -7,7 +7,6 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
-    'cornice',
     'pyramid',
     'pyramid_tm',
     'pyramid_debugtoolbar',
@@ -41,8 +40,6 @@ setup(name='whiskers',
       zip_safe=False,
       test_suite='whiskers.tests',
       install_requires=requires,
-      extras_require=[
-          {'docs': 'Sphinx'}],
       entry_points="""\
       [paste.app_factory]
       main = whiskers:main
