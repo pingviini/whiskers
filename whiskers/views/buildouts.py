@@ -64,11 +64,11 @@ class BuildoutsView(object):
         host = Host.get_by_name(jsondata.hostname)
 
         if not host:
-            host = Host.add(jsondata.hostname)
+            host = Host.add(jsondata.hostname, jsondata.ipv4)
 
         self.add_buildout(jsondata, host, checksum)
 
-        return Response('Added buildout info to Whiskers.')
+        return Response('Added buildout information to Whiskers.')
 
     def add_buildout(self, data, host, checksum):
         packages = []
@@ -88,8 +88,9 @@ class BuildoutsView(object):
 
             packages.append(package)
 
-        buildout = Buildout(data.name, host, checksum, packages,
-                            data.config)
+        buildout = Buildout(data.name, host, checksum, started=data.started,
+                            finished=data.finished, packages=packages,
+                            config=data.config)
 
         DBSession.add(buildout)
         return buildout

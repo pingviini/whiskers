@@ -1,4 +1,5 @@
 import json
+import dateutil.parser
 
 
 class JsonDataWrapper(object):
@@ -6,19 +7,36 @@ class JsonDataWrapper(object):
 
     def __init__(self, data):
         self.data = json.loads(data)
+        self.buildout = self.data.get('buildout_config')
 
     @property
     def hostname(self):
         return self.data.get('hostname', None)
 
     @property
+    def ipv4(self):
+        return self.data.get('ipv4', None)
+
+    @property
+    def started(self):
+        date = self.data.get('started', None)
+        parsed = dateutil.parser.parse(date)
+        return parsed
+
+    @property
+    def finished(self):
+        date = self.data.get('finished', None)
+        parsed = dateutil.parser.parse(date)
+        return parsed
+
+    @property
     def name(self):
-        return self.data.get('buildoutname', None) or\
+        return self.buildout.get('buildoutname', None) or\
             self.path.rsplit('/', 1)[-1]
 
     @property
     def path(self):
-        return self.data.get('directory', None)
+        return self.buildout.get('directory', None)
 
     @property
     def packages(self):
@@ -31,15 +49,15 @@ class JsonDataWrapper(object):
 
     @property
     def executable(self):
-        return self.data.get('executable', None)
+        return self.buildout.get('executable', None)
 
     @property
     def allow_picked_versions(self):
-        return self.data.get('allow_picked_versions', None)
+        return self.buildout.get('allow_picked_versions', None)
 
     @property
     def newest(self):
-        return self.data.get('newest', None)
+        return self.buildout.get('newest', None)
 
     @property
     def versionmap(self):
@@ -47,10 +65,7 @@ class JsonDataWrapper(object):
 
     @property
     def config(self):
-        tmp = self.data.copy()
-        tmp.pop('packages')
-        tmp.pop('versionmap')
-        return json.dumps(tmp)
+        return json.dumps(self.buildout)
 
     def get_package_version(self, package):
         """Return package version."""

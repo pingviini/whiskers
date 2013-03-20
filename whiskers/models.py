@@ -7,7 +7,8 @@ from sqlalchemy import (
     DateTime,
     Unicode,
     ForeignKey,
-    Table)
+    Table
+)
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
@@ -16,7 +17,8 @@ from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
     relationship,
-    backref)
+    backref
+)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 from zope.interface import implementer
@@ -44,30 +46,49 @@ packagerequires_table = Table(
 
 @implementer(interfaces.IBuildout)
 class Buildout(Base):
+    """
+    Buildout contains the model and classmethods for storing
+    and querying buildout information.
+    """
 
     __tablename__ = 'buildout'
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255))
     datetime = Column(DateTime)
+    started = Column(DateTime)
+    finished = Column(DateTime)
     checksum = Column(Integer, unique=True)
     host_id = Column(Integer, ForeignKey('host.id'))
-    host = relationship("Host",
-                        backref=backref('buildouts',
-                                        order_by=datetime.desc()))
-    packages = relationship("Package", secondary=buildoutpackage_table,
-                            backref=backref('buildouts', order_by=name))
     config = Column(Text)
 
-    def __init__(self, name, host, checksum, packages=None, config=None):
+    # Many to many relationship to Host
+    host = relationship(
+        "Host",
+        backref=backref('buildouts', order_by=datetime.desc())
+    )
+    # Many to many relationship to Package
+    packages = relationship(
+        "Package",
+        secondary=buildoutpackage_table,
+        backref=backref('buildouts', order_by=name),
+        order_by="Package.name"
+    )
+
+    def __init__(self, name, host, checksum, started=None, finished=None,
+                 packages=None, config=None):
         self.name = name
         self.host = host
+        self.datetime = datetime.now()
+        self.checksum = checksum
+        if started:
+            self.started = started
+        if finished:
+            self.finished = finished
         if packages:
             self.packages = packages
         if config:
             self.config = config
-        self.datetime = datetime.now()
-        self.checksum = checksum
 
     @classmethod
     def get_by_checksum(klass, checksum):
@@ -93,9 +114,11 @@ class Host(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(25), unique=True)
+    ipv4 = Column(Text(15))
 
-    def __init__(self, name):
+    def __init__(self, name, ipv4):
         self.name = name
+        self.ipv4 = ipv4
 
     @classmethod
     def all_by_name(klass):
@@ -119,8 +142,9 @@ class Host(Base):
         return host.one()
 
     @classmethod
-    def add(klass, hostname):
-        host = klass(hostname)
+    def add(klass, hostname, ipv4):
+        """Add a new host object to DB."""
+        host = klass(hostname, ipv4)
         DBSession.add(host)
         return host
 
@@ -128,6 +152,9 @@ class Host(Base):
 @implementer(interfaces.IPackage)
 class Package(Base):
     """
+    Package contains information about the specific package (name, version
+    requirements).
+
     Each package is contained zero or many buildouts.
     Each Package contains one version.
     """
@@ -135,9 +162,9 @@ class Package(Base):
     __tablename__ = 'package'
 
     id = Column(Integer, primary_key=True)
+    name = Column(Unicode(255))
     version_id = Column(Integer, ForeignKey("version.id"))
     version = relationship("Version", backref="packages")
-    name = Column(Unicode(255))
     requires = relationship(
         "Package",
         secondary=packagerequires_table,
@@ -178,6 +205,7 @@ class Package(Base):
 
     @classmethod
     def get_by_nameversion(klass, name, version=None):
+        """Return package filtered by name and version."""
         query = DBSession.query(klass).join(klass.version).\
             filter(klass.name == name)
         if version:
@@ -186,6 +214,7 @@ class Package(Base):
 
     @classmethod
     def get_by_id(klass, id):
+        """Return package id."""
         package = DBSession.query(klass).filter_by(id)
 
         if package.count():
@@ -193,6 +222,7 @@ class Package(Base):
 
     @classmethod
     def add(klass, name, version=None, requires=None):
+        """Add a new package to DB."""
         package = klass(name, version=version, requires=requires)
         DBSession.add(package)
         return package
@@ -200,15 +230,21 @@ class Package(Base):
 
 @implementer(interfaces.IVersion)
 class Version(Base):
-    """Each version is contained in zero or many packages"""
+    """
+    Version contains information and classmethods for storing and
+    querying package versions.
+
+    Each version is contained in zero or many packages.
+    """
 
     __tablename__ = 'version'
 
     id = Column(Integer, primary_key=True)
     version = Column(Unicode(20), unique=True)
+    final_version = Column(Unicode(20), unique=True)
     equation = Column(Unicode(2))
 
-    def __init__(self, version, equation=None):
+    def __init__(self, version, equation=None, final_version=None):
         self.version = version
         if equation:
             self.equation = equation
