@@ -12,7 +12,6 @@ requires = [
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'python-dateutil',
-    'Sphinx',
     'SQLAlchemy',
     'transaction',
     'waitress',
@@ -20,7 +19,7 @@ requires = [
 ]
 
 setup(name='whiskers',
-      version='1.0a1',
+      version='1.0-alpha.1',
       description='whiskers',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -42,6 +41,8 @@ setup(name='whiskers',
       zip_safe=False,
       test_suite='whiskers.tests',
       install_requires=requires,
+      extras_require=[
+          {'docs': 'Sphinx'}],
       entry_points="""\
       [paste.app_factory]
       main = whiskers:main
