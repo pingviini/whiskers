@@ -7,15 +7,16 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
+    'cornice',
     'pyramid',
-    'SQLAlchemy',
-    'transaction',
     'pyramid_tm',
     'pyramid_debugtoolbar',
-    'zope.sqlalchemy',
+    'python-dateutil',
+    'Sphinx',
+    'SQLAlchemy',
+    'transaction',
     'waitress',
-    'cornice',
-    'Sphinx'
+    'zope.sqlalchemy',
 ]
 
 setup(name='whiskers',
@@ -24,6 +25,10 @@ setup(name='whiskers',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
           "Programming Language :: Python",
+          "Programming Language :: Python :: 2.6",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3.2",
+          "Programming Language :: Python :: 3.3",
           "Framework :: Pyramid",
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
@@ -31,7 +36,7 @@ setup(name='whiskers',
       author='Jukka Ojaniemi',
       author_email='jukka.ojaniemi@gmail.com',
       url='https://github.com/pingviini/whiskers',
-      keywords='web wsgi bfg pylons pyramid',
+      keywords='web wsgi pyramid whiskers buildout',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
