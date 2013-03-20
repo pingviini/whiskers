@@ -10,7 +10,7 @@ Whiskers is a Pyramid application for storing information about your buildouts.
 It is intended to use with buildout.sendpickedversions (PyPI_, Github_)
 extension.
 
-.. image:: https://travis-ci.org/pingviini/whiskers.png?branch=refactor
+.. image:: https://travis-ci.org/pingviini/whiskers.png?branch=cornice-support
 
 Reason behind Whiskers
 ======================
