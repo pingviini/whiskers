@@ -6,4 +6,6 @@ Data.*
 .coverage
 *.db
 *.db-journal
+*.sqlite
 dist
+docs/build

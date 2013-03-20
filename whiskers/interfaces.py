@@ -11,3 +11,11 @@ class IPackage(Interface):
 
 class IVersion(Interface):
     """Version"""
+
+
+class IEquation(Interface):
+    """Equation"""
+
+
+class IHost(Interface):
+    """Host"""

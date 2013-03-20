@@ -18,7 +18,7 @@
     <!-- Meta Tags -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript"
-            src="${request.static_url('whiskers:static/js/jquery-1.8.2.js')}"></script>
+            src="${request.static_url('whiskers:static/js/jquery-1.8.2.min.js')}"></script>
     <script type="text/javascript"
             src="${request.static_url('whiskers:static/js/bootstrap.js')}"></script>
 
@@ -45,14 +45,17 @@
           <a class="brand" href="/">Whiskers</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              <li tal:attributes="class python:request.current_route_url() != request.route_url('hosts') or 'active'">
+                <a href="${request.route_url('hosts')}">Hosts</a>
+              </li>
               <li tal:attributes="class python:request.current_route_url() != request.route_url('buildouts') or 'active'">
                 <a href="${request.route_url('buildouts')}">Buildouts</a>
               </li>
               <li tal:attributes="class python:request.current_route_url() != request.route_url('packages') or 'active'">
                 <a href="${request.route_url('packages')}">Packages</a>
               </li>
-              <li>
-                <a href="#about">About</a>
+              <li tal:attributes="class python:request.current_route_url() != request.route_url('about') or 'active'">
+                <a href="${request.route_url('about')}">About</a>
               </li>
             </ul>
           </div><!--/.nav-collapse -->
