@@ -40,8 +40,8 @@ class HostModelTests(unittest.TestCase):
         from whiskers.models import Host
         return Host
 
-    def _makeOne(self, name='latitude'):
-        return self._getTargetClass()(name)
+    def _makeOne(self, name='latitude', ipv4='127.0.0.1'):
+        return self._getTargetClass()(name, ipv4)
 
     def test_constructor(self):
         instance = self._makeOne()
@@ -113,13 +113,13 @@ class BuildoutModelTests(unittest.TestCase):
 
     def _makeOne(self, name='buildout'):
         from whiskers.models import Host
-        host = Host('localhost')
-        return self._getTargetClass()(name, host)
+        host = Host('localhost', '127.0.0.1')
+        return self._getTargetClass()(name, host, 1234)
 
     def _makeOneWithPackages(self, name, packages):
         from whiskers.models import Host
-        host = Host('localhost')
-        return self._getTargetClass()(name, host, packages=packages)
+        host = Host('localhost', '127.0.0.1')
+        return self._getTargetClass()(name, host, 1234, packages=packages)
 
     def _makePackage(self, name, version):
         from whiskers.models import Package, Version
@@ -164,13 +164,13 @@ class InitializeSqlTests(unittest.TestCase):
 
     def _createDummyContent(self, session):
         from whiskers.models import Buildout, Package, Version, Host
-        host = Host('localhost')
+        host = Host('localhost', '127.0.0.1')
         version = Version('1.0')
         package = Package('req-package-1', version)
         packages = [Package('package1', version),
                     Package('package2', Version('2.0'),
                             requires=[package])]
-        buildout = Buildout('buildout', host, packages=packages)
+        buildout = Buildout('buildout', host, 12345, packages=packages)
         session.add(buildout)
         session.flush()
         transaction.commit()
