@@ -19,7 +19,7 @@ def get_package_info(request):
     version = request.matchdict['version']
 
     result = DBSession.query(Package).\
-        outerjoin(Version, Package.version_id == Version.id).\
+        join(Version, Package.version_id == Version.id).\
         filter(Package.name == package,
                Version.version == version).first()
 
