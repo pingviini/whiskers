@@ -12,6 +12,7 @@ from whiskers.models import (
     Package,
     Host,
     Version,
+    Settings,
     DBSession)
 
 
@@ -93,7 +94,17 @@ class BuildoutsView(object):
                             config=data.config)
 
         DBSession.add(buildout)
+        self.remove_old_buildouts(data.name)
         return buildout
+
+    def remove_old_buildouts(self, name):
+        """Remove old buildouts."""
+        buildouts_to_keep = Settings.get_buildouts_to_keep()
+        buildouts = Buildout.get_by_name(name)
+
+        if buildouts.count() > buildouts_to_keep:
+            for buildout in buildouts[buildouts_to_keep:]:
+                DBSession.delete(buildout)
 
     def get_requirements(self, requirements, versionmap):
         """Return list of package requirements."""

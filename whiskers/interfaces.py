@@ -19,3 +19,7 @@ class IEquation(Interface):
 
 class IHost(Interface):
     """Host"""
+
+
+class ISettings(Interface):
+    """Settings."""

@@ -5,6 +5,7 @@ from whiskers.models import initialize_sql
 from whiskers.views.buildouts import BuildoutsView
 from whiskers.views.hosts import HostsView
 from whiskers.views.packages import PackagesView
+from whiskers.views.settings import SettingsView
 
 
 def main(global_config, **settings):
@@ -54,6 +55,15 @@ def main(global_config, **settings):
     config.add_route('hosts', '/hosts')
     config.add_view(HostsView, route_name='hosts',
                     renderer='views/templates/hosts.pt')
+
+    config.add_route('settings', '/settings', request_method="GET")
+    config.add_view(SettingsView, route_name='settings',
+                    renderer='views/templates/settings.pt')
+
+    config.add_route('save_settings', '/settings',
+                     request_method='POST')
+    config.add_view(SettingsView, route_name='save_settings',
+                    attr='post')
 
     config.add_route('host', '/hosts/{host_id}')
     config.add_view(HostsView, route_name='host', attr="host_view",

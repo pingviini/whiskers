@@ -97,8 +97,9 @@ class Buildout(Base):
         return query
 
     @classmethod
-    def by_name(klass):
-        query = DBSession.query(klass).order_by(klass.name)
+    def get_by_name(klass, name):
+        query = DBSession.query(klass).filter(klass.name == name).\
+            order_by(klass.datetime.desc())
         return query
 
     @classmethod
@@ -260,6 +261,27 @@ class Version(Base):
         version = klass(version, equation=equation)
         DBSession.add(version)
         return version
+
+
+@implementer(interfaces.ISettings)
+class Settings(Base):
+    """
+    """
+
+    __tablename__ = 'settings'
+
+    id = Column(Integer, primary_key=True)
+    buildouts_to_keep = Column(Integer, nullable=False)
+
+    def __init__(self, buildouts_to_keep):
+        self.buildouts_to_keep = buildouts_to_keep
+
+    @classmethod
+    def get_buildouts_to_keep(klass):
+        result = DBSession.query(klass).first()
+        if not result:
+            return -1
+        return result.buildouts_to_keep
 
 
 def initialize_sql(engine):
