@@ -1,7 +1,10 @@
 from sqlalchemy.sql.expression import func
 from pyramid.renderers import get_renderer
 from whiskers.models import DBSession
-from whiskers.models import Host, Buildout
+from whiskers.models import (
+    Host,
+    Buildout
+)
 
 
 class HostsView(object):
