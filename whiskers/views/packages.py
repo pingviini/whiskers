@@ -12,7 +12,13 @@ class PackagesView(object):
     def __call__(self):
         """Main view for packages."""
         packages = Package.by_name()
-        return {'packages': packages, 'project': 'whiskers', 'main': self.main}
+        unused = [{'id': package.id,
+                   'name': package.name} for package in packages if
+                  not package.buildouts]
+        return {'packages': packages,
+                'project': 'whiskers',
+                'unused': unused,
+                'main': self.main}
 
     def package_view(self):
         """View for individual package."""
