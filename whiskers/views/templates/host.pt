@@ -7,7 +7,7 @@
 <tal:block metal:use-macro="main.macros['body']">
   <div metal:fill-slot="content">
     <div class="container">
-      <h3>${host.name}</h3>
+      <h3>${host.name} (${host.ipv4})</h3>
       <hr />
 
       <div class="row">
