@@ -54,11 +54,18 @@
               <li tal:attributes="class python:request.current_route_url() != request.route_url('packages') or 'active'">
                 <a href="${request.route_url('packages')}">Packages</a>
               </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li tal:attributes="class python:request.current_route_url() != request.route_url('settings') or 'active'">
+              <a href="${request.route_url('settings')}">
+                <i class="icon-wrench icon"></i>
+                Settings</a>
+              </li>
               <li tal:attributes="class python:request.current_route_url() != request.route_url('about') or 'active'">
                 <a href="${request.route_url('about')}">About</a>
               </li>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
