@@ -1,11 +1,12 @@
 .DS_Store
+Data.*
+.coverage
+dist
+docs/build
 *.pyc
 *.mo
 *.egg-info
-Data.*
-.coverage
+*.egg
 *.db
 *.db-journal
 *.sqlite
-dist
-docs/build

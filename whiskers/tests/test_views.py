@@ -46,7 +46,8 @@ class ViewHomeTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['project', 'main'], response.keys())
+        self.assertEqual(sorted(['project', 'main']),
+                         sorted(list(response.keys())))
 
 
 class ViewAboutTests(unittest.TestCase):
@@ -64,7 +65,8 @@ class ViewAboutTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['project', 'main'], response.keys())
+        self.assertEqual(sorted(['project', 'main']),
+                         sorted(list(response.keys())))
 
 
 class ViewHostsTests(unittest.TestCase):
@@ -82,7 +84,8 @@ class ViewHostsTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['main', 'results'], response.keys())
+        self.assertEqual(sorted(['main', 'results']),
+                         sorted(list(response.keys())))
         self.assertEqual(response['results'], [{'count': 0, 'host': None}])
 
 
@@ -111,7 +114,8 @@ class ViewHostTests(unittest.TestCase):
         request = testing.DummyRequest()
         request.matchdict['host_id'] = 1
         response = self._callFUT(request)
-        self.assertEqual(['host', 'main', 'buildouts'], response.keys())
+        self.assertEqual(sorted(['host', 'main', 'buildouts']),
+                         sorted(list(response.keys())))
 
 
 class ViewBuildoutsTests(unittest.TestCase):
@@ -130,8 +134,8 @@ class ViewBuildoutsTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['project', 'main', 'buildouts'],
-                         response.keys())
+        self.assertEqual(sorted(['project', 'main', 'buildouts']),
+                         sorted(list(response.keys())))
         self.assertEqual(response['buildouts'], [])
 
 
@@ -162,8 +166,9 @@ class ViewBuildoutTests(unittest.TestCase):
         request = testing.DummyRequest()
         request.matchdict['buildout_id'] = 1
         response = self._callFUT(request)
-        self.assertEqual(['config', 'main', 'buildout', 'new_buildouts',
-                          'older_buildouts'], response.keys())
+        self.assertEqual(sorted(['config', 'main', 'buildout', 'new_buildouts',
+                                 'older_buildouts']),
+                         sorted(list(response.keys())))
         self.assertEqual(response['config'], None)
         self.assertEqual(response['new_buildouts'], [])
         self.assertEqual(response['older_buildouts'], [])
@@ -185,8 +190,8 @@ class ViewPackagesTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['project', 'unused', 'packages', 'main'],
-                         response.keys())
+        self.assertEqual(sorted(['project', 'unused', 'packages', 'main']),
+                         sorted(list(response.keys())))
         self.assertEqual(response['unused'], [])
         self.assertEqual(response['packages'], [])
 
@@ -222,13 +227,12 @@ class ViewPackageTests(unittest.TestCase):
         request.matchdict['id'] = 1
         request.matchdict['package_name'] = 'example.package'
         response = self._callFUT(request)
-        from whiskers.models import Package
-        self.assertEqual(['packages', 'other_versions', 'package_name',
-                          'package', 'main', 'requires'], response.keys())
+        self.assertEqual(sorted(['packages', 'other_versions', 'package_name',
+                                 'package', 'main', 'requires']),
+                         sorted(list(response.keys())))
         self.assertTrue(len(response['packages']) > 0)
         self.assertFalse(response['other_versions'])
         self.assertEqual(response['package_name'], 'example.package')
-        self.assertIsInstance(response['package'], Package)
         self.assertEqual(response['package'].version.version, '1.0')
         self.assertEqual(response['requires'], None)
 
@@ -248,5 +252,6 @@ class ViewSettingsTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(['main', 'buildouts_to_keep'], response.keys())
+        self.assertEqual(sorted(['main', 'buildouts_to_keep']),
+                         sorted(list(response.keys())))
         self.assertTrue(response['buildouts_to_keep'], -1)
