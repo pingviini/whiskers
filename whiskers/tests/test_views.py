@@ -231,3 +231,22 @@ class ViewPackageTests(unittest.TestCase):
         self.assertIsInstance(response['package'], Package)
         self.assertEqual(response['package'].version.version, '1.0')
         self.assertEqual(response['requires'], None)
+
+
+class ViewSettingsTests(unittest.TestCase):
+    def setUp(self):
+        self.config = testing.setUp()
+
+    def tearDown(self):
+        testing.tearDown()
+
+    def _callFUT(self, request):
+        from whiskers.views.settings import SettingsView
+        return SettingsView(request)()
+
+    def test_it(self):
+        _registerRoutes(self.config)
+        request = testing.DummyRequest()
+        response = self._callFUT(request)
+        self.assertEqual(['main', 'buildouts_to_keep'], response.keys())
+        self.assertTrue(response['buildouts_to_keep'], -1)

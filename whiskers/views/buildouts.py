@@ -154,7 +154,10 @@ class BuildoutsView(object):
                    Buildout.id != buildout_id).\
             order_by(Buildout.datetime).all()
 
-        config = json.loads(buildout.config)
+        try:
+            config = json.loads(buildout.config)
+        except TypeError:
+            config = None
 
         return {'buildout': buildout, 'main': self.main, 'config': config,
                 'older_buildouts': older_buildouts,

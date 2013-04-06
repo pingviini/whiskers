@@ -137,7 +137,6 @@ class Host(Base):
     @classmethod
     def get_by_id(klass, id):
         host = DBSession.query(klass).\
-            join(klass.buildouts).\
             filter(klass.id == id).\
             order_by(klass.name)
         return host.one()
@@ -201,7 +200,7 @@ class Package(Base):
     def by_name(klass):
         """Return packages grouped and ordered by name."""
         query = DBSession.query(klass).group_by(klass.name).\
-            order_by(klass.name)
+            order_by(klass.name).all()
         return query
 
     @classmethod

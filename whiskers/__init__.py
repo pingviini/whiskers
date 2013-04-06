@@ -43,8 +43,11 @@ def main(global_config, **settings):
     config.add_view(PackagesView, route_name='packages',
                     renderer='views/templates/packages.pt')
 
-    config.add_route('package_view', '/packages/{package_name}*id')
+    config.add_route('package_view', '/packages/{package_name}/{id}')
     config.add_view(PackagesView, route_name='package_view',
+                    attr='package_view', renderer='views/templates/package.pt')
+    config.add_route('general_package_view', '/packages/{package_name}')
+    config.add_view(PackagesView, route_name='general_package_view',
                     attr='package_view', renderer='views/templates/package.pt')
 
     config.add_route('about', '/about')

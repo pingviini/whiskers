@@ -29,8 +29,8 @@ class PackagesView(object):
         requires = None
         other_versions = False
 
-        if len(package_id) > 0:
-            package = packages.filter(Package.id == int(package_id[0])).first()
+        if package_id:
+            package = packages.filter(Package.id == package_id).first()
             if package and package.requires:
                 requires = package.requires
         else:
