@@ -19,7 +19,9 @@
         <dd>${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}</dd>
       </dl>
       <div class="config">
-        <a href="#buildoutConfig" role="button" class="" data-toggle="modal">Show buildout config</a>
+        <a href="#buildoutConfig" role="button" class="" data-toggle="modal">
+          Show buildout config
+        </a>
 
         <div id="buildoutConfig" class="modal hide fade" tabindex="-1"
              role="dialog" aria-labelledby="buildoutConfigLabel"
@@ -43,7 +45,7 @@
       <h4>Following packages are available to buildout environment</h4>
 
       <div class="row">
-        <div class="listing">
+        <div class="span12 listing">
           <p tal:repeat="package buildout.packages">
             <a href="${request.route_url('packages')}/${package.name}/${package.id}">
               <span tal:content="string: ${package.name}" />

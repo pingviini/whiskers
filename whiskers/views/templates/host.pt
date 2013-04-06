@@ -11,7 +11,7 @@
       <hr />
 
       <div class="row">
-        <tal:block tal:repeat="buildout host.buildouts">
+        <tal:block tal:repeat="buildout buildouts">
         <div class="span2">
           <h4>
             <a href="${request.route_url('buildouts')}/${buildout.id}">

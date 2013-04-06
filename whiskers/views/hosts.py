@@ -13,7 +13,6 @@ class HostsView(object):
         self.main = get_renderer(
             'whiskers:views/templates/master.pt').implementation()
         self.request = request
-        self.session = DBSession()
 
     def __call__(self):
         """Hosts main view."""
@@ -23,7 +22,10 @@ class HostsView(object):
     def host_view(self):
         host_id = self.request.matchdict['host_id']
         host = Host.get_by_id(int(host_id))
-        return {'host': host, 'main': self.main}
+        buildouts = self.get_buildouts(host_id)
+        return {'host': host,
+                'main': self.main,
+                'buildouts': buildouts}
 
     def get_hosts_info(self):
         """Return list of dicts containing Host info."""
@@ -40,3 +42,11 @@ class HostsView(object):
             result_list.append(tmp)
 
         return result_list
+
+    def get_buildouts(self, host_id):
+        """Return list of buildouts."""
+        results = DBSession.query(Buildout).\
+            filter(Buildout.host_id == host_id).\
+            group_by(Buildout.name).\
+            order_by(Buildout.datetime.desc()).all()
+        return results

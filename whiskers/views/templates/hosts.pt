@@ -14,7 +14,7 @@
         <div class="span4" tal:repeat="result results">
           <h4>
             <a href="${request.route_url('host', host_id=result.host.id)}">
-              ${result.host.name}
+              ${result.host.name} (${result.host.ipv4})
             </a>
           </h4>
           <p tal:condition="result.count">

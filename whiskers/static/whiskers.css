@@ -29,3 +29,7 @@ body {
 .package-details a.all-versions {
     font-size: 80%;
 }
+
+.modal {
+  width: 600px;
+}
