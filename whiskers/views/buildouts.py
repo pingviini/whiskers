@@ -102,7 +102,7 @@ class BuildoutsView(object):
         buildouts_to_keep = Settings.get_buildouts_to_keep()
         buildouts = Buildout.get_by_name(name)
 
-        if buildouts.count() > buildouts_to_keep:
+        if buildouts.count() > buildouts_to_keep and buildouts_to_keep > 0:
             for buildout in buildouts[buildouts_to_keep:]:
                 DBSession.delete(buildout)
 
