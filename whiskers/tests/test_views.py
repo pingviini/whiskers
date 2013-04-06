@@ -280,8 +280,9 @@ class TestJSONPost(unittest.TestCase):
             request = testing.DummyRequest(post=True)
             request.params['data'] = data.read()
             response = self._callFUT(request)
-            self.assertEqual(u"Added buildout information to Whiskers.",
-                             response.text)
+            self.assertEqual(
+                "Added buildout information to Whiskers.",
+                response.text)
         from whiskers.models import Package
         self.assertEqual(self.session.query(Package).count(), 10)
 
