@@ -255,3 +255,39 @@ class ViewSettingsTests(unittest.TestCase):
         self.assertEqual(sorted(['main', 'buildouts_to_keep']),
                          sorted(list(response.keys())))
         self.assertTrue(response['buildouts_to_keep'], -1)
+
+
+class TestJSONPost(unittest.TestCase):
+    def setUp(self):
+        self.session = _initTestingDB()
+        self.config = testing.setUp()
+
+    def tearDown(self):
+        self.session.remove()
+        testing.tearDown()
+
+    def _callFUT(self, request):
+        from whiskers.views.buildouts import BuildoutsView
+        return BuildoutsView(request).post()
+
+    def _call_packages_view(self, request):
+        from whiskers.views.packages import PackagesView
+        return PackagesView(request)()
+
+    def test_it(self):
+        _registerRoutes(self.config)
+        with open(__file__.rsplit('/', 1)[0] + '/testdata.json', 'r') as data:
+            request = testing.DummyRequest(post=True)
+            request.params['data'] = data.read()
+            response = self._callFUT(request)
+            self.assertEqual(u"Added buildout information to Whiskers.",
+                             response.text)
+        from whiskers.models import Package
+        self.assertEqual(self.session.query(Package).count(), 10)
+
+        request = testing.DummyRequest()
+        response = self._call_packages_view(request)
+        self.assertEqual(sorted(['project', 'unused', 'packages', 'main']),
+                         sorted(list(response.keys())))
+        self.assertEqual(response['unused'], [])
+        self.assertEqual(len(response['packages']), 10)

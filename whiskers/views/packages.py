@@ -14,7 +14,8 @@ class PackagesView(object):
         packages = Package.by_name()
         unused = [{'id': package.id,
                    'name': package.name} for package in packages if
-                  not package.buildouts]
+                  not package.buildouts and
+                  package.version.version != 'stdlib']
         return {'packages': packages,
                 'project': 'whiskers',
                 'unused': unused,
