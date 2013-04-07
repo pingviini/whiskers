@@ -43,6 +43,12 @@ def main(global_config, **settings):
     config.add_view(PackagesView, route_name='packages',
                     renderer='views/templates/packages.pt')
 
+    config.add_route('delete_package', '/packages/{package_name}/{id}/delete',
+                     request_method='POST')
+    config.add_view(PackagesView, route_name='delete_package',
+                    attr='delete_package', renderer='json',
+                    xhr=True)
+
     config.add_route('package_view', '/packages/{package_name}/{id}')
     config.add_view(PackagesView, route_name='package_view',
                     attr='package_view', renderer='views/templates/package.pt')

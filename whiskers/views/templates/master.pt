@@ -22,6 +22,9 @@
     <script type="text/javascript"
             src="${request.static_url('whiskers:static/js/bootstrap.js')}"></script>
 
+    <script type="text/javascript"
+            src="${request.static_url('whiskers:static/js/whiskers.js')}"></script>
+
     <!--[if lte IE 6]>
     <link rel="stylesheet" href="${request.static_url('whiskers:static/ie6.css')}" type="text/css" media="screen" charset="utf-8" />
     <![endif]-->

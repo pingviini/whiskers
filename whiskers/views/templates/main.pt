@@ -10,15 +10,15 @@
         <h1>Whiskers HOWTO</h1>
         <div class="instructions">
           <p>To use whiskers you'll need to add following configuration to
-             your buildout.cfg:
+          your buildout.cfg and modify <i>send-data-url</i> to point to
+          whiskers:
           </p>
           <pre>
-
             [buildout]
             buildoutname = somename
             ...
             extensions = buildout.sendpickedversions
-            whiskers-url = http://example.com/buildouts/add
+            send-data-url = http://your_whiskers_url
             ...
           </pre>
 
@@ -27,7 +27,7 @@
             buildout.sendpickedversions which is used to parse packages
             buildout is going to get. After everything is done
             buildout.sendpickedversions sends the package
-            data to whiskers-url you specified. Whiskers will take care of
+            data to specified URL. Whiskers will take care of
             the rest.
           </p>
         </div>
