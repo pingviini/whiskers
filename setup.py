@@ -18,7 +18,7 @@ requires = [
 ]
 
 setup(name='whiskers',
-      version='1.0-alpha.1',
+      version='1.0-alpha.2',
       description='whiskers',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
