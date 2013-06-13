@@ -45,7 +45,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">Whiskers</a>
+          <a class="brand" href="${request.application_url}">Whiskers</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li tal:attributes="class python:request.current_route_url() != request.route_url('hosts') or 'active'">
