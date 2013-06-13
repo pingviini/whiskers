@@ -86,7 +86,7 @@ class ViewHostsTests(unittest.TestCase):
         response = self._callFUT(request)
         self.assertEqual(sorted(['main', 'results']),
                          sorted(list(response.keys())))
-        self.assertEqual(response['results'], [{'count': 0, 'host': None}])
+        self.assertEqual(response['results'], [])
 
 
 class ViewHostTests(unittest.TestCase):
