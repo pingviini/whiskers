@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.0-alpha.3 (2013-06-13)
+------------------------
+
+ * Link to application root in top navigation doesn't assume application
+   is in domain root.
+ * Hosts view works now with multiple hosts.
+
 1.0-alpha.2 (2013-04-07)
 ------------------------
 
