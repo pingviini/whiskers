@@ -32,13 +32,13 @@ class HostsView(object):
 
         result_list = []
 
-        results = DBSession.query(Host, func.count(Buildout.id)).\
+        results = DBSession.query(Host).\
             join(Buildout, Buildout.host_id == Host.id).all()
 
         for result in results:
             tmp = {}
-            tmp['host'] = result[0]
-            tmp['count'] = result[1]
+            tmp['host'] = result
+            tmp['count'] = len(result.buildouts)
             result_list.append(tmp)
 
         return result_list
