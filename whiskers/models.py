@@ -103,9 +103,24 @@ class Buildout(Base):
         return query
 
     @classmethod
+    def get_by_id(klass, id):
+        buildout = DBSession.query(klass).filter(klass.id == id).\
+            order_by(klass.datetime.desc()).one()
+        return buildout
+
+    @classmethod
     def by_host(klass):
         query = DBSession.query(klass).order_by(klass.host)
         return query
+
+    def get_as_dict(self):
+        """Return buildout information as dict."""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'host': self.host.get_as_dict(),
+            'packages': [package.get_as_dict() for package in
+                         self.packages]}
 
 
 @implementer(interfaces.IHost)
@@ -147,6 +162,12 @@ class Host(Base):
         host = klass(hostname, ipv4)
         DBSession.add(host)
         return host
+
+    def get_as_dict(self):
+        """Return host data as json."""
+        return {'id': self.id,
+                'name': self.name,
+                'ipv4': self.ipv4}
 
 
 @implementer(interfaces.IPackage)
@@ -219,6 +240,14 @@ class Package(Base):
 
         if package.count():
             return package.first().id
+
+    def get_as_dict(self):
+        """Return package data as dict."""
+        return {'id': self.id,
+                'name': self.name,
+                'version': self.version.version,
+                'required_by': [package.get_as_dict() for package in
+                                self.required_by]}
 
     @classmethod
     def add(klass, name, version=None, requires=None):
