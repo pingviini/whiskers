@@ -1,0 +1,38 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="hero-unit">
+        <h1>Whiskers HOWTO</h1>
+        <div class="instructions">
+          <p>To use whiskers you'll need to add following configuration to
+          your buildout.cfg and modify <i>send-data-url</i> to point to
+          whiskers:
+          </p>
+          <pre>
+            [buildout]
+            buildoutname = somename
+            ...
+            extensions = buildout.sendpickedversions
+            send-data-url = http://your_whiskers_url
+            ...
+          </pre>
+
+          <p>
+            That's it. Run buildout and it will pull
+            buildout.sendpickedversions which is used to parse packages
+            buildout is going to get. After everything is done
+            buildout.sendpickedversions sends the package
+            data to specified URL. Whiskers will take care of
+            the rest.
+          </p>
+        </div>
+      </div>
+  </div>
+
+</tal:block>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <h2 class="title">
+        ${package_name}
+      </h2>
+
+      <div tal:condition="package" class="package-details">
+        <h3 tal:condition="package.version">
+          ${package.version.version}
+        </h3>
+
+        <a class="all-versions" tal:condition="other_versions"
+           href="${request.route_url('packages')}/${package_name}">
+           (all versions)
+        </a>
+
+        <div class="used_by" tal:condition="package.buildouts">
+          <h5>This package is used by following buildouts:</h5>
+          <ul>
+            <li tal:repeat="buildout package.buildouts">
+              <a href="${request.route_url('buildouts')}/${buildout.id}">
+                ${buildout.name} - ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="requires" tal:condition="package.requires">
+          <h5>This package requires following packages:</h5>
+          <ul>
+            <li tal:repeat="requires package.requires">
+              <a href="${request.route_url('packages')}/${requires.name}/${requires.id}">
+                <tal:block tal:content="string: ${requires.name}" />
+                <tal:block tal:condition="requires.version" tal:content="string: - ${requires.version.version}" />
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="required_by" tal:condition="package.required_by">
+          <h5>This package is required by following packages:</h5>
+          <ul>
+            <li tal:repeat="requires package.required_by">
+              <a href="${request.route_url('packages')}/${requires.name}/${requires.id}"
+                 tal:content="string: ${requires.name} - ${requires.version.version}" />
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <tal:packages tal:condition="not: package" tal:repeat="result packages">
+        <div tal:condition="result.buildouts" class="package-details">
+          <h3>${result.version.version}</h3>
+          <p>This package is used by following buildouts:</p>
+          <ul>
+            <li tal:repeat="buildout result.buildouts">
+              <a href="${request.route_url('buildouts')}/${buildout.id}">
+                ${buildout.name} - ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div tal:condition="not: result.buildouts" class="package-details">
+          <h3>${result.version.version}</h3>
+          <p>This package is not used by any buildouts anymore.</p>
+        </div>
+      </tal:packages>
+    </div>
+  </div>
+</tal:block>
+</html>

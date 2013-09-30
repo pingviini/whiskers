@@ -1,0 +1,35 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+<head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <h3>All the unique buildouts</h3>
+      <hr />
+
+      <div class="row">
+        <tal:block tal:repeat="buildout buildouts">
+        <div class="span3">
+          <h4>
+            <a href="${request.route_url('buildouts')}/${buildout.id}">
+              ${buildout.name}
+            </a>
+          </h4>
+          <dl>
+            <dt>Host</dt>
+            <dd>${buildout.host.name}</dd>
+            <dt>Updated</dt>
+            <dd>${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}</dd>
+            <dt>Packages</dt>
+            <dd tal:content="len(buildout.packages)" />
+          </dl>
+        </div>
+        </tal:block>
+      </div>
+    </div>
+  </div>
+</tal:block>
+</html>

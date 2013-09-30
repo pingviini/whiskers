@@ -1,0 +1,88 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <h2 class="title">Buildout name: ${buildout.name}</h2>
+      <dl>
+        <dt>Host</dt>
+        <dd>
+          <a href="${request.route_url('host', host_id=buildout.host.id)}">
+            ${buildout.host.name}
+          </a>
+        </dd>
+        <dt>Added or modified</dt>
+        <dd>${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}</dd>
+      </dl>
+      <div class="config">
+        <a href="#buildoutConfig" role="button" class="" data-toggle="modal">
+          Show buildout config
+        </a>
+
+        <div id="buildoutConfig" class="modal hide fade" tabindex="-1"
+             role="dialog" aria-labelledby="buildoutConfigLabel"
+             aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="buildoutConfigLabel">Buildout config</h3>
+          </div>
+          <div class="modal-body">
+            <dl class="dl-horizontal">
+              <tal:block tal:repeat="key config.keys()">
+                <tal:block tal:condition="config[key]">
+                <dt tal:content="key" />
+                <dd tal:content="config[key]"></dd>
+                </tal:block>
+              </tal:block>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <h4>Following packages are available to buildout environment</h4>
+
+      <div class="row">
+        <div class="span12 listing">
+          <p tal:repeat="package buildout.packages">
+            <a href="${request.route_url('packages')}/${package.name}/${package.id}">
+              <span tal:content="string: ${package.name}" />
+              <tal:block tal:condition="package.version">
+                - 
+                <span tal:content="string: ${package.version.version}" />
+              </tal:block>
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div tal:condition="new_buildouts">
+        <hr />
+        <h4>View new versions of this buildout</h4>
+        <ul tal:repeat="buildout new_buildouts">
+          <li>
+            <a href="${request.route_url('buildout_view', buildout_id=buildout.id)}">
+              ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div tal:condition="older_buildouts">
+        <hr />
+        <h4>View older versions of this buildout</h4>
+        <ul tal:repeat="buildout older_buildouts">
+          <li>
+            <a href="${request.route_url('buildout_view', buildout_id=buildout.id)}">
+              ${buildout.datetime.strftime("%Y-%m-%d %H:%M:%S")}
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</tal:block>
+</html>

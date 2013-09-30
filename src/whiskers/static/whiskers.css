@@ -1,0 +1,35 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.listing {
+    column-count: auto;
+    column-width: 20em;
+    column-gap: 1em;
+    column-rule: 1px solid black;
+    -moz-column-count: auto;
+    -moz-column-width: 20em;
+    -moz-column-gap: 1em;
+    -moz-column-rule: 1px solid black;
+    -webkit-column-count: auto;
+    -webkit-column-width: 20em;
+    -webkit-column-gap: 1em;
+    -webkit-column-rule: 1px solid black;
+}
+
+.listing a {
+    text-decoration: none;
+}
+
+.package-details {
+    margin-top: 1em;
+}
+
+.package-details a.all-versions {
+    font-size: 80%;
+}
+
+.modal {
+  width: 600px;
+}

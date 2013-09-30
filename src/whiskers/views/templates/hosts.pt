@@ -1,0 +1,30 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+<head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <h3>Hosts where buildouts are executed</h3>
+      <hr />
+
+      <div class="row-fluid">
+        <div class="span4" tal:repeat="result results">
+          <h4>
+            <a href="${request.route_url('host', host_id=result.host.id)}">
+              ${result.host.name} (${result.host.ipv4})
+            </a>
+          </h4>
+          <p tal:condition="result.count">
+            Contains information of
+            <span tal:omit-tag="" tal:content="result.count" />
+            buildouts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</tal:block>
+</html>

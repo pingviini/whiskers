@@ -1,0 +1,28 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <h1>Whiskers settings</h1>
+      <form action="" method="POST" class="form-horizontal">
+        <div>
+          <label for="buildouts_to_keep">
+            Enter the number of history to keep
+            for each buildout. -1 means keep everything.
+          </label>
+          <input name="buildouts_to_keep" value="${buildouts_to_keep}" />
+          <span class="help-block"></span>
+        </div>
+        <div>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</tal:block>
+</html>

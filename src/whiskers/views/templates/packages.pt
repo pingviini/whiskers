@@ -1,0 +1,39 @@
+<!DOCTYPE html5>
+<html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+<head metal:use-macro="main.macros['head']" />
+
+<tal:block metal:use-macro="main.macros['body']">
+  <div metal:fill-slot="content">
+    <div class="container">
+      <tal:block tal:condition="unused">
+      <div class="row" id="unused_header">
+        <div class="span12">
+          <h4>Unused packages</h4>
+        </div>
+      </div>
+      <div class="row" id="unused_content">
+        <div class="span12">
+          <p tal:repeat="package unused">
+            <a tal:attributes="href string: packages/${package.name}/${package.id}">${package.name} ${package.version}</a>
+            <a class="delete" tal:attributes="href string: ${request.route_url('packages')}/${package.name}/${package.id}/delete">
+              <i class="icon-trash"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+      </tal:block>
+      <h3>Packages from buildouts</h3>
+      <hr />
+
+      <div class="listing">
+        <p tal:repeat="package packages">
+          <a tal:attributes="href string: packages/${package.name}"
+            tal:content="package.name" />
+        </p>
+      </div>
+    </div>
+  </div>
+</tal:block>
+</html>
