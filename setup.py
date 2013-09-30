@@ -11,6 +11,7 @@ requires = [
     'pyramid',
     'pyramid_tm',
     'pyramid_debugtoolbar',
+    'pyramid_chameleon',
     'python-dateutil',
     'SQLAlchemy',
     'transaction',
@@ -19,7 +20,7 @@ requires = [
 ]
 
 setup(name='whiskers',
-      version='1.0-alpha.3',
+      version='1.0.0',
       description='whiskers',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -36,7 +37,8 @@ setup(name='whiskers',
       author_email='jukka.ojaniemi@gmail.com',
       url='https://github.com/pingviini/whiskers',
       keywords='web wsgi pyramid whiskers buildout',
-      packages=find_packages(),
+      package_dir={"": "src"},
+      packages=find_packages('src'),
       include_package_data=True,
       zip_safe=False,
       test_suite='whiskers.tests',
