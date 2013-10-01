@@ -1,0 +1,23 @@
+<div class="container whiskers-content">
+  <div class="row">
+    <h3>Buildouts</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-2" ng-repeat="buildout in buildouts.buildouts">
+      <h4>
+        <a href="${request.route_url('buildouts')}/${buildout.id}">
+          {{buildout.name}}
+        </a>
+      </h4>
+      <dl>
+        <dt>Host</dt>
+        <dd>{{buildout.host.name}}</dd>
+        <!-- <dt>Updated</dt> -->
+        <!-- <dd>${buildout.datetime.strftime("%Y&#45;%m&#45;%d %H:%M:%S")}</dd> -->
+        <!-- <dt>Packages</dt> -->
+        <!-- <dd tal:content="len(buildout.packages)" /> -->
+      </dl>
+    </div>
+    </tal:block>
+  </div>
+</div>

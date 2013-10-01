@@ -1,0 +1,62 @@
+<div class="container whiskers-content">
+
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3>Hosts</h3>
+      </div>
+      <div class="col-lg-5">
+        <input ng-model="host.name" placeholder="Host" class="column-search">
+      </div>
+    </div>
+    <div class="row">
+      <ul>
+        <li ng-repeat="host in hosts.hosts | filter:host.name">
+          {{host.name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3>Buildouts</h3>
+      </div>
+      <div class="col-lg-5">
+        <input ng-model="buildout.name" placeholder="Buildout" class="column-search">
+      </div>
+    </div>
+    <div class="row">
+      <ul>
+        <li ng-repeat="buildout in buildouts.buildouts | filter:buildout.name">
+          {{buildout.name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3>Packages</h3>
+      </div>
+      <div class="col-lg-5">
+        <input ng-model="package.name" placeholder="Package name" class="column-search">
+      </div>
+    </div>
+    <div class="row">
+      <ul>
+        <li ng-repeat="package in packages.packages | filter:package.name">
+        {{package.name}}
+          <ul>
+            <li ng-repeat="package in package.requires">
+              {{package}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
