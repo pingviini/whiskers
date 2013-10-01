@@ -1,0 +1,13 @@
+<div class="container whiskers-content">
+  <div class="row">
+    <h3>Packages</h3>
+    <hr>
+  </div>
+  <div class="row">
+    <div class="listing">
+      <p ng-repeat="package in packages.packages">
+        <a href="#/packages/{{package.id}}">{{package.name}}</a>
+      </p>
+    </div>
+  </div>
+</div>
