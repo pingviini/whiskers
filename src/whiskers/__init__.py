@@ -1,4 +1,5 @@
 from pyramid.config import Configurator
+from pyramid_beaker import set_cache_regions_from_settings
 from sqlalchemy import engine_from_config
 
 from whiskers.models import initialize_sql
@@ -9,10 +10,11 @@ from whiskers.views.settings import SettingsView
 
 
 def main(global_config, **settings):
-    """ This function returns a Pyramid WSGI application.
-    """
+    """This function returns a Pyramid WSGI application."""
     engine = engine_from_config(settings, 'sqlalchemy.')
     initialize_sql(engine)
+
+    set_cache_regions_from_settings(settings)
     config = Configurator(settings=settings)
     config.add_static_view('static', 'whiskers:static', cache_max_age=3600)
     config.include("cornice")
@@ -22,7 +24,8 @@ def main(global_config, **settings):
                      request_method='POST')
     config.add_view('whiskers.views.main.whiskers_view',
                     route_name='home',
-                    renderer='views/templates/main.pt')
+                    renderer='views/templates/main.pt',
+                    layout="main")
 
     config.add_route('buildouts', '/buildouts', request_method="GET")
     config.add_view(BuildoutsView, route_name='buildouts',
@@ -78,6 +81,10 @@ def main(global_config, **settings):
     config.add_route('host', '/hosts/{host_id}')
     config.add_view(HostsView, route_name='host', attr="host_view",
                     renderer='views/templates/host.pt')
+
+    config.add_layout('whiskers.views.layout.main.MainLayout',
+                      'whiskers:views/layout/main.pt',
+                      name="main")
 
     config.scan("whiskers.api")
     return config.make_wsgi_app()
