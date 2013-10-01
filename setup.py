@@ -9,9 +9,11 @@ CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 requires = [
     'cornice',
     'pyramid',
+    'pyramid_beaker',
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'pyramid_chameleon',
+    'pyramid_layout',
     'python-dateutil',
     'SQLAlchemy',
     'transaction',
