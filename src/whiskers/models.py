@@ -255,9 +255,9 @@ class Package(Base):
         return {'id': self.id,
                 'name': self.name,
                 'version': self.version.version,
-                'required_by': [package.get_as_dict() for package in
+                'required_by': [package.name for package in
                                 self.required_by],
-                'requires': [package.get_as_dict() for package in
+                'requires': [package.name for package in
                              self.required_by]}
 
     @classmethod
