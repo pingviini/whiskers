@@ -1,38 +1,51 @@
 <!DOCTYPE html5>
 <html xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal">
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  ng-app="whiskers">
 
-  <head metal:use-macro="main.macros['head']" />
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="${layout.static_url}/lib/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet" media="screen">
+    <link href="${layout.static_url}/css/whiskers.css"
+      rel="stylesheet" media="screen">
+    <metal:content define-slot="stylesheets" />
 
-<tal:block metal:use-macro="main.macros['body']">
-  <div metal:fill-slot="content">
-    <div class="hero-unit">
-        <h1>Whiskers HOWTO</h1>
-        <div class="instructions">
-          <p>To use whiskers you'll need to add following configuration to
-          your buildout.cfg and modify <i>send-data-url</i> to point to
-          whiskers:
-          </p>
-          <pre>
-            [buildout]
-            buildoutname = somename
-            ...
-            extensions = buildout.sendpickedversions
-            send-data-url = http://your_whiskers_url
-            ...
-          </pre>
+    <title>Whiskers</title>
+  </head>
 
-          <p>
-            That's it. Run buildout and it will pull
-            buildout.sendpickedversions which is used to parse packages
-            buildout is going to get. After everything is done
-            buildout.sendpickedversions sends the package
-            data to specified URL. Whiskers will take care of
-            the rest.
-          </p>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation"> 
+      <div class="container">
+        <div class="col-lg-2">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">Whiskers</a>
+          </div>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#/hosts">Hosts</a></li>
+            <li><a href="#/buildouts">Buildouts</a></li>
+            <li><a href="#/packages">Packages</a></li>
+            <li><a href="#/settings">Settings</a></li>
+          </ul>
         </div>
       </div>
-  </div>
+    </div>
 
-</tal:block>
+    <div ng-view></div>
+
+    <script src="${layout.static_url}/lib/angular/angular.min.js"></script>
+    <script src="${layout.static_url}/lib/angular/angular-resource.min.js"></script>
+    <script src="${layout.static_url}/app/whiskers.js"></script>
+    <script src="${layout.static_url}/app/services.js"></script>
+  </body>
+
 </html>
