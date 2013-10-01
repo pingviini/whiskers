@@ -1,3 +1,4 @@
+from beaker.cache import cache_region
 from cornice.resource import (
     resource,
     view
@@ -15,7 +16,7 @@ class BuildoutsAPI(object):
     def __init__(self, request):
         self.request = request
 
-    @view(renderer='json')
+    @cache_region('default_term')
     def collection_get(self):
         """Return all buildouts as json."""
         results = DBSession.query(Buildout).order_by(Buildout.name).all()

@@ -1,3 +1,4 @@
+from beaker.cache import cache_region
 from cornice.resource import (
     resource,
     view
@@ -15,6 +16,7 @@ class PackagesAPI(object):
     def __init__(self, request):
         self.request = request
 
+    @cache_region('default_term')
     def collection_get(self):
         """Return all packages as json."""
         results = DBSession.query(Package).order_by(Package.name).all()
