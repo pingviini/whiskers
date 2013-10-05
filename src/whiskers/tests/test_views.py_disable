@@ -46,7 +46,7 @@ class ViewHomeTests(unittest.TestCase):
         _registerRoutes(self.config)
         request = testing.DummyRequest()
         response = self._callFUT(request)
-        self.assertEqual(sorted(['project', 'main']),
+        self.assertEqual(sorted(['project']),
                          sorted(list(response.keys())))
 
 

@@ -19,6 +19,7 @@ requires = [
     'transaction',
     'waitress',
     'zope.sqlalchemy',
+    'webtest'
 ]
 
 setup(name='whiskers',

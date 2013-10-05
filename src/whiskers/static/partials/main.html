@@ -29,9 +29,7 @@
     </div>
     <div class="row">
       <ul>
-        <li ng-repeat="buildout in buildouts.buildouts | filter:buildout.name">
-          {{buildout.name}}
-        </li>
+        <li ng-repeat="buildout in buildouts.buildouts | filter:buildout">{{buildout.name}}</li>
       </ul>
     </div>
   </div>
@@ -47,13 +45,13 @@
     </div>
     <div class="row">
       <ul>
-        <li ng-repeat="package in packages.packages | filter:package.name">
+        <li ng-repeat="package in packages.packages | filter:package">
         {{package.name}}
-          <ul>
-            <li ng-repeat="package in package.requires">
-              {{package}}
-            </li>
-          </ul>
+          <!-- <ul> -->
+          <!--   <li ng&#45;repeat="package in package.requires"> -->
+          <!--     {{package}} -->
+          <!--   </li> -->
+          <!-- </ul> -->
         </li>
       </ul>
     </div>
