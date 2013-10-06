@@ -9,7 +9,8 @@ from sqlalchemy import (
     DateTime,
     Unicode,
     ForeignKey,
-    Table
+    Table,
+    Index
 )
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -131,7 +132,7 @@ class Host(Base):
     __tablename__ = 'host'
 
     id = Column(Integer, primary_key=True)
-    name = Column(Unicode(25), unique=True)
+    name = Column(Unicode(25), unique=True, index=True)
     ipv4 = Column(Text(15))
 
     def __init__(self, name, ipv4):
@@ -145,11 +146,13 @@ class Host(Base):
 
     @classmethod
     def get_by_name(klass, name):
-        host = DBSession.query(klass).\
-            join(klass.buildouts).\
-            filter(klass.name == name).\
-            order_by(klass.name).first()
-        return host
+        try:
+            host = DBSession.query(klass).\
+                join(klass.buildouts).\
+                filter(klass.name == name).\
+                order_by(klass.name).one()
+        except NoResultFound:
+            return None
 
     @classmethod
     def get_by_id(klass, id):
@@ -267,6 +270,8 @@ class Package(Base):
         DBSession.add(package)
         return package
 
+
+# Index("idx_packagenameversion", Package.name, Package.version)
 
 @implementer(interfaces.IVersion)
 class Version(Base):
