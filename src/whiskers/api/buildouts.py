@@ -1,15 +1,18 @@
+import zlib
+
 from beaker.cache import cache_region
 from cornice.resource import (
     resource,
     view
 )
-import zlib
-from sqlalchemy.orm.exc import NoResultFound
 from whiskers.jsonwrapper import JsonDataWrapper
 from whiskers.models import (
     DBSession,
     Buildout,
-    Host, Package, Version)
+    Host,
+    Package,
+    Version
+)
 
 
 @resource(collection_path="/api/buildouts",
@@ -28,8 +31,7 @@ class BuildoutsAPI(object):
 
     def get_checksum(self, data):
         """Return data checksum."""
-        incoming = data.encode('utf-8')
-        checksum = zlib.adler32(incoming)
+        checksum = zlib.adler32(data)
         return checksum
 
     def collection_post(self):
@@ -39,7 +41,6 @@ class BuildoutsAPI(object):
         json_data = JsonDataWrapper(data)
         host = self.prepare_host(json_data)
         packages = self.prepare_packages(json_data)
-
 
         buildout = Buildout(
             name=json_data.name,
