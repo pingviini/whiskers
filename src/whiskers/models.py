@@ -146,11 +146,12 @@ class Host(Base):
 
     @classmethod
     def get_by_name(klass, name):
+        """Search host by name."""
         try:
             host = DBSession.query(klass).\
-                join(klass.buildouts).\
                 filter(klass.name == name).\
                 order_by(klass.name).one()
+            return host
         except NoResultFound:
             return None
 
@@ -195,8 +196,8 @@ class Package(Base):
     __tablename__ = 'package'
 
     id = Column(Integer, primary_key=True)
-    name = Column(Unicode(255))
-    version_id = Column(Integer, ForeignKey("version.id"))
+    name = Column(Unicode(255), index=True)
+    version_id = Column(Integer, ForeignKey("version.id"), index=True)
     version = relationship("Version", backref="packages")
     requires = relationship(
         "Package",
@@ -271,8 +272,6 @@ class Package(Base):
         return package
 
 
-# Index("idx_packagenameversion", Package.name, Package.version)
-
 @implementer(interfaces.IVersion)
 class Version(Base):
     """
@@ -285,7 +284,7 @@ class Version(Base):
     __tablename__ = 'version'
 
     id = Column(Integer, primary_key=True)
-    version = Column(Unicode(20), unique=True)
+    version = Column(Unicode(20), unique=True, index=True)
     final_version = Column(Unicode(20), unique=True)
     equation = Column(Unicode(2))
 
