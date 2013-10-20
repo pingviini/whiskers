@@ -1,5 +1,6 @@
 import unittest
 import json
+import datetime
 
 from pyramid.paster import get_app
 from whiskers.models import (
@@ -31,7 +32,9 @@ class RESTBuildoutsTest(unittest.TestCase):
 
     def add_test_buildout(self):
         with open('./src/whiskers/tests/testdata.json', 'r') as json_data:
-            resp = self.test_app.post_json('/api/buildouts', json.load(json_data))
+            data = json.load(json_data)
+            data['finished'] = datetime.datetime.now().isoformat()
+            resp = self.test_app.post_json('/api/buildouts', data)
         return resp
 
     def test_buildout_post_get(self):
@@ -41,6 +44,15 @@ class RESTBuildoutsTest(unittest.TestCase):
         data = json.loads(resp.body.decode('utf-8'))
         self.assertTrue(len(data['packages']), 9)
 
+    def test_buildout_packages(self):
+        resp = self.add_test_buildout()
+        resp = self.test_app.get('/api/buildouts/1/packages')
+        self.common_tests(resp)
+
+    def test_buildout_packages_get(self):
+        resp = self.add_test_buildout()
+        resp = self.test_app.get('/api/buildouts/1/packages/1')
+        self.common_tests(resp)
 
 if __name__ == '__main__':
     unittest.main()

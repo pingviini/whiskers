@@ -1,4 +1,6 @@
+import json
 import unittest
+import datetime
 
 from pyramid.paster import get_app
 from whiskers.models import DBSession, Host
@@ -10,6 +12,13 @@ class RESTHostsTest(unittest.TestCase):
     def setUp(self):
         app = get_app('testing.ini')
         self.test_app = TestApp(app)
+
+    def add_test_buildout(self):
+        with open('./src/whiskers/tests/testdata.json', 'r') as json_data:
+            data = json.load(json_data)
+            data['finished'] = datetime.datetime.now().isoformat()
+            resp = self.test_app.post_json('/api/buildouts', data)
+        return resp
 
     def add_host(self):
         host = Host('test_host_1', '1.1.1.1')
@@ -39,6 +48,15 @@ class RESTHostsTest(unittest.TestCase):
         resp = self.test_app.get('/api/hosts/1')
         self.common_tests(resp)
 
+    def test_host_buildouts(self):
+        self.add_test_buildout()
+        resp = self.test_app.get('/api/hosts/1/buildouts')
+        self.common_tests(resp)
+
+    def test_host_buildouts_get(self):
+        self.add_test_buildout()
+        resp = self.test_app.get('/api/hosts/1/buildouts/1')
+        self.common_tests(resp)
 
 if __name__ == '__main__':
     unittest.main()
