@@ -45,7 +45,8 @@
       <h4>Following packages are available to buildout environment</h4>
 
       <div class="row">
-        <div class="span12 listing">
+        <div class="span12">
+        <div class="listing">
           <p tal:repeat="package buildout.packages">
             <a href="${request.route_url('packages')}/${package.name}/${package.id}">
               <span tal:content="string: ${package.name}" />
@@ -55,6 +56,7 @@
               </tal:block>
             </a>
           </p>
+        </div>
         </div>
       </div>
 
