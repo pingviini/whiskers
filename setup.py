@@ -43,6 +43,7 @@ setup(name='whiskers',
       zip_safe=False,
       test_suite='whiskers.tests',
       install_requires=requires,
+      tests_require=requires,
       entry_points="""\
       [paste.app_factory]
       main = whiskers:main
