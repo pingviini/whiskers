@@ -1,8 +1,14 @@
-.DS_Store
 Data.*
-.coverage
 dist
 docs/build
+bin
+develop-eggs
+.tox
+.idea
+.ropeproject
+.DS_Store
+.coverage
+.installed.cfg
 *.pyc
 *.mo
 *.egg-info
