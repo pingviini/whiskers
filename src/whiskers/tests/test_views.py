@@ -17,6 +17,7 @@ def _initTestingDB():
 
 
 def _registerRoutes(config):
+    config.include('pyramid_chameleon')
     config.add_static_view('static', 'whiskers:static', cache_max_age=3600)
     config.add_route('home', '/', request_method='GET')
     config.add_route('post_buildout', '/',
