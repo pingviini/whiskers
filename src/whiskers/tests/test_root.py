@@ -27,8 +27,7 @@ class WhiskersRootTests(IntegrationTestBase):
         data = '{][}'
         res = self.app.post_json('/', dict(data=data))
         self.assertEqual(res.status_int, 200)
-        self.assertEqual(res.body,
-                         'Adding information failed because of '
-                         'bad data. Erronous data was: {data}'.format(
-            data=data)
+        self.assertEqual(
+            res.body,
+            "Not a valid request. Error was: 'unicode' object has no attribute 'get'"
         )

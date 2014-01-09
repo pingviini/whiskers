@@ -5,10 +5,6 @@ import transaction
 path = os.path.dirname(os.path.realpath(__file__))
 
 
-# from chameleon.zpt.template import PageTemplateFile
-# from pyramid import testing
-
-
 def _initTestingDB():
     from whiskers.models import DBSession
     from whiskers.models import Base
@@ -23,9 +19,6 @@ def _initTestingDB():
 def _registerRoutes(config):
     config.add_static_view('static', 'whiskers:static', cache_max_age=3600)
     config.add_route('home', '/')
-    # config.add_route('buildouts', '/buildouts')
-    # config.add_route('buildout_view', '/buildouts/{buildout_id}/view')
-    # config.add_route('package_view', '/packages/{package_id}/view')
 
 
 class HostModelTests(unittest.TestCase):
@@ -238,7 +231,7 @@ class InitializeSqlTests(unittest.TestCase):
     # def get_testjson(self):
     #     """Return testdata."""
 
-    #     with open(path + '/tests/testdata.json') as testdata:
+    #     with open(path + '/tests/dummydata.py') as testdata:
     #         return testdata.readlines()
 #
 # class AddBuildoutTests(unittest.TestCase):

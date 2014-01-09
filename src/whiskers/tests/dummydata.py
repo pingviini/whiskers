@@ -1,4 +1,4 @@
-{"buildout_config": {
+test_data = {"buildout_config": {
     "allow-hosts": "*",
     "allow-picked-versions": "true",
     "bin-directory": "/buildout/example/bin",
