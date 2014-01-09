@@ -6,7 +6,7 @@ class JsonDataWrapper(object):
     """Wrapper for json-data."""
 
     def __init__(self, data):
-        self.data = json.loads(data)
+        self.data = data
         self.buildout = self.data.get('buildout_config')
 
     @property

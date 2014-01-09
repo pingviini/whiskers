@@ -106,8 +106,11 @@ class Buildout(Base):
 
     @classmethod
     def get_by_id(klass, id):
-        buildout = DBSession.query(klass).filter(klass.id == id).\
-            order_by(klass.datetime.desc()).one()
+        buildout = DBSession.query(klass).\
+            filter(klass.id == id).\
+            order_by(klass.datetime.desc()).\
+            one()
+
         return buildout
 
     @classmethod
@@ -155,8 +158,10 @@ class Host(Base):
     def get_by_id(klass, id):
         host = DBSession.query(klass).\
             filter(klass.id == id).\
-            order_by(klass.name)
-        return host.one()
+            order_by(klass.name).\
+            one()
+
+        return host
 
     @classmethod
     def add(klass, hostname, ipv4):
@@ -304,9 +309,6 @@ class Version(Base):
 
 @implementer(interfaces.ISettings)
 class Settings(Base):
-    """
-    """
-
     __tablename__ = 'settings'
 
     id = Column(Integer, primary_key=True)

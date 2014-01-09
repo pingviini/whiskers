@@ -36,8 +36,10 @@ class BuildoutsView(object):
     def get_buildouts_info(self):
         """Return list of dicts containing Buildout info."""
 
-        query = DBSession.query(Buildout).join(Buildout.host).\
-            group_by(Buildout.name).order_by(Buildout.datetime).\
+        query = DBSession.query(Buildout).\
+            join(Buildout.host).\
+            group_by(Buildout.name).\
+            order_by(Buildout.datetime).\
             all()
 
         return query
@@ -45,9 +47,8 @@ class BuildoutsView(object):
     def post(self):
         """Add a new buildout to database."""
         try:
-            data = self.request.params['data']
-            incoming = data.encode('utf-8')
-            checksum = zlib.adler32(incoming)
+            data = self.request.json_body['data']
+            checksum = zlib.adler32(self.request.body)
             checksum_buildout = Buildout.get_by_checksum(checksum)
             if checksum_buildout:
                 logging.info("Checksum matched")
@@ -59,8 +60,12 @@ class BuildoutsView(object):
             jsondata = JsonDataWrapper(data)
         except KeyError:
             return Response('No data. Nothing added.')
+        except AttributeError as e:
+            return Response("Not a valid request. Error was: {error}".format(
+                error=str(e)))
         except Exception as e:
-            return Response(str(e))
+            return Response("Adding information failed. Error was: {error}".
+                            format(error=str(e)))
 
         host = Host.get_by_name(jsondata.hostname)
 
@@ -140,7 +145,8 @@ class BuildoutsView(object):
         buildout = DBSession.query(Buildout).filter_by(
             id=int(buildout_id)).one()
 
-        new_buildouts = DBSession.query(Buildout).join(Buildout.host).\
+        new_buildouts = DBSession.query(Buildout).\
+            join(Buildout.host).\
             filter(Buildout.host == buildout.host,
                    Buildout.name == buildout.name,
                    Buildout.id != buildout_id,
