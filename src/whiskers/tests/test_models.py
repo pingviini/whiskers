@@ -2,18 +2,9 @@ import unittest
 import os
 import transaction
 
+from .base import UnitTestBase
+
 path = os.path.dirname(os.path.realpath(__file__))
-
-
-def _initTestingDB():
-    from whiskers.models import DBSession
-    from whiskers.models import Base
-    from sqlalchemy import create_engine
-    engine = create_engine('sqlite:///:memory:')
-    DBSession.configure(bind=engine)
-    Base.metadata.bind = engine
-    Base.metadata.create_all(engine)
-    return DBSession
 
 
 def _registerRoutes(config):
@@ -21,13 +12,7 @@ def _registerRoutes(config):
     config.add_route('home', '/')
 
 
-class HostModelTests(unittest.TestCase):
-
-    def setUp(self):
-        self.session = _initTestingDB()
-
-    def tearDown(self):
-        self.session.remove()
+class HostModelTests(UnitTestBase):
 
     def _getTargetClass(self):
         from whiskers.models import Host
@@ -41,13 +26,7 @@ class HostModelTests(unittest.TestCase):
         self.assertEqual(instance.name, 'latitude')
 
 
-class VersionModelTests(unittest.TestCase):
-
-    def setUp(self):
-        self.session = _initTestingDB()
-
-    def tearDown(self):
-        self.session.remove()
+class VersionModelTests(UnitTestBase):
 
     def _getTargetClass(self):
         from whiskers.models import Version
@@ -61,13 +40,7 @@ class VersionModelTests(unittest.TestCase):
         self.assertEqual(instance.version, '1.0')
 
 
-class PackageModelTests(unittest.TestCase):
-
-    def setUp(self):
-        self.session = _initTestingDB()
-
-    def tearDown(self):
-        self.session.remove()
+class PackageModelTests(UnitTestBase):
 
     def _getTargetClass(self):
         from whiskers.models import Package
@@ -92,13 +65,7 @@ class PackageModelTests(unittest.TestCase):
         self.assertEqual(instances[0], instances[1].requires[0])
 
 
-class BuildoutModelTests(unittest.TestCase):
-
-    def setUp(self):
-        self.session = _initTestingDB()
-
-    def tearDown(self):
-        self.session.remove()
+class BuildoutModelTests(UnitTestBase):
 
     def _getTargetClass(self):
         from whiskers.models import Buildout
@@ -188,97 +155,3 @@ class InitializeSqlTests(unittest.TestCase):
         self.assertEqual(p1.requires[0].name, 'req-package-1')
         self.assertEqual(buildout.host.name, 'localhost')
 
-
-# class TestWhiskersView(unittest.TestCase):
-#     def setUp(self):
-#         self.config = testing.setUp()
-#         _initTestingDB()
-#
-#     def tearDown(self):
-#         testing.tearDown()
-#
-#     def test_whiskers_view(self):
-#         from whiskers.views import whiskers_view
-#         request = testing.DummyRequest()
-#         info = whiskers_view(request)
-#         self.assertEqual(info['project'], 'whiskers')
-#         self.assertEqual(info['main'].__class__, PageTemplateFile)
-#
-#
-# class TestBuildoutsView(unittest.TestCase):
-#     def setUp(self):
-#         self.session = _initTestingDB()
-#         self.config = testing.setUp()
-#
-#     def tearDown(self):
-#         self.session.remove()
-#         testing.tearDown()
-#
-#     def _callFUT(self, request):
-#         from whiskers.views import buildouts_view
-#         return buildouts_view(request)
-#
-#     def test_it(self):
-#         from whiskers.models import Buildout, Package, Version
-#         request = testing.DummyRequest()
-#         buildout = Buildout('buildout1',
-#                             [Package('package1',Version('1.0'))])
-#         self.session.add(buildout)
-#         _registerRoutes(self.config)
-#         info = self._callFUT(request)
-#         self.assertEqual(info['buildouts'][0], buildout)
-#
-    # def get_testjson(self):
-    #     """Return testdata."""
-
-    #     with open(path + '/tests/dummydata.py') as testdata:
-    #         return testdata.readlines()
-#
-# class AddBuildoutTests(unittest.TestCase):
-#     def setUp(self):
-#         self.session = _initTestingDB()
-#         self.config = testing.setUp()
-#
-#     def tearDown(self):
-#         self.session.remove()
-#         testing.tearDown()
-#
-#     def _callFUT(self, request):
-#         from whiskers.views import add_buildout_view
-#         return add_buildout_view(request)
-#
-#     def add_buildout(self, test_data=test_data):
-#         _registerRoutes(self.config)
-#         request = testing.DummyRequest()
-#         request.params = {'data': json.dumps(test_data)}
-#         self._callFUT(request)
-#
-#     def test_it_nodata(self):
-#         _registerRoutes(self.config)
-#         request = testing.DummyRequest()
-#         info = self._callFUT(request)
-#         self.assertEqual(info.status, '200 OK')
-#         self.assertEqual(info.text, 'No data. Nothing added.')
-#
-#     def test_it_submitted(self):
-#         self.add_buildout()
-#         from whiskers.models import Buildout
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         self.assertEqual(buildout.name, 'test')
-#         packages = [i.name for i in buildout.packages]
-#         for p in ['distribute', 'nose', 'zc.buildout', 'zc.recipe.egg']:
-#             self.assertTrue(p in packages)
-#
-#     def test_update_data(self):
-#         from whiskers.models import Buildout
-#         # First we add default data and check it's there
-#         self.add_buildout()
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue(('distribute', '0.6.24') in packages)
-#         # Lets update our data
-#         test_data['packages'][0]['version'] = '0.6.25'
-#         self.add_buildout(test_data)
-#         buildout = self.session.query(Buildout).filter_by(name='test').one()
-#         packages = [(i.name, i.version.version) for i in buildout.packages]
-#         self.assertTrue(('distribute', '0.6.25') in packages)
