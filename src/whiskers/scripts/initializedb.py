@@ -34,9 +34,3 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
-    # with transaction.manager:
-    #     model = Host('latitude')
-    #     DBSession.add(model)
-    #     buildout = Buildout('testbuildout', '/path/to/buildout', host=model,
-    #                         packages=[])
-    #     DBSession.add(buildout)
