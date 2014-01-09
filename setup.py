@@ -18,6 +18,7 @@ requires = [
     'waitress',
     'zope.sqlalchemy',
 ]
+test_requires = requires.append('webtest')
 
 setup(name='whiskers',
       version='1.0.0',
@@ -42,7 +43,7 @@ setup(name='whiskers',
       zip_safe=False,
       test_suite='whiskers.tests',
       install_requires=requires,
-      tests_require=requires,
+      tests_require=test_requires,
       entry_points="""\
       [paste.app_factory]
       main = whiskers:main
