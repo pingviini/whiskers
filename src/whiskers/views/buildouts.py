@@ -59,12 +59,12 @@ class BuildoutsView(object):
             logging.info("New checksum")
             jsondata = JsonDataWrapper(data)
         except KeyError:
-            return Response('No data. Nothing added.')
+            return Response(u"No data. Nothing added.")
         except AttributeError as e:
-            return Response("Not a valid request. Error was: {error}".format(
+            return Response(u"Not a valid request. Error was: {error}".format(
                 error=str(e)))
         except Exception as e:
-            return Response("Adding information failed. Error was: {error}".
+            return Response(u"Adding information failed. Error was: {error}".
                             format(error=str(e)))
 
         host = Host.get_by_name(jsondata.hostname)
@@ -74,7 +74,7 @@ class BuildoutsView(object):
 
         self.add_buildout(jsondata, host, checksum)
 
-        return Response('Added buildout information to Whiskers.')
+        return Response(u'Added buildout information to Whiskers.')
 
     def add_buildout(self, data, host, checksum):
         packages = []

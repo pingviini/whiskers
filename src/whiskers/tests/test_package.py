@@ -18,8 +18,8 @@ class WhiskersPackagesTests(IntegrationTestBase):
     def add_package_data(self):
         res = self.app.post_json('/', dict(data=test_data))
         self.assertEqual(res.status_int, 200)
-        self.assertEqual("Added buildout information to Whiskers.",
-                         res.body)
+        self.assertEqual(res.body.decode(),
+                         u"Added buildout information to Whiskers.")
 
     def test_no_packages_view(self):
         res = self.app.get('/packages')
@@ -31,4 +31,3 @@ class WhiskersPackagesTests(IntegrationTestBase):
         res = self.app.get('/packages/1')
         self.assertEqual(res.status_int, 200)
         self.assertEqual(res.content_type, 'text/html')
-

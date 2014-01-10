@@ -11,8 +11,8 @@ class WhiskersRootTests(IntegrationTestBase):
     def test_post_root(self):
         res = self.app.post_json('/', dict(data=test_data))
         self.assertEqual(res.status_int, 200)
-        self.assertEqual("Added buildout information to Whiskers.",
-                         res.body)
+        self.assertEqual(res.body.decode(),
+                         u"Added buildout information to Whiskers.")
 
         from whiskers.models import (Package, Host)
         self.assertEqual(self.session.query(Package).count(), 10)
@@ -21,13 +21,11 @@ class WhiskersRootTests(IntegrationTestBase):
     def test_post_root_with_no_data(self):
         res = self.app.post_json('/', dict())
         self.assertEqual(res.status_int, 200)
-        self.assertEqual(res.body, 'No data. Nothing added.')
+        self.assertEqual(res.body.decode(), u'No data. Nothing added.')
 
     def test_post_root_with_garbled_data(self):
         data = '{][}'
         res = self.app.post_json('/', dict(data=data))
         self.assertEqual(res.status_int, 200)
-        self.assertEqual(
-            res.body,
-            "Not a valid request. Error was: 'unicode' object has no attribute 'get'"
-        )
+        self.assertTrue(
+            u"Not a valid request. Error was: " in res.body.decode())
