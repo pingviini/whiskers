@@ -3,27 +3,27 @@ import os
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.rst')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
+README = open(os.path.join(here, "README.rst")).read()
+CHANGES = open(os.path.join(here, "CHANGES.rst")).read()
 
 requires = [
-    'cornice',
-    'pyramid',
-    'pyramid_tm',
-    'pyramid_debugtoolbar',
-    'pyramid_chameleon',
-    'python-dateutil',
-    'SQLAlchemy',
-    'transaction',
-    'waitress',
-    'zope.sqlalchemy',
+    "cornice",
+    "pyramid",
+    "pyramid_tm",
+    "pyramid_debugtoolbar",
+    "pyramid_chameleon",
+    "python-dateutil",
+    "SQLAlchemy",
+    "transaction",
+    "waitress",
+    "zope.sqlalchemy",
 ]
-test_requires = requires.append('webtest')
+test_requires = requires.append("webtest")
 
-setup(name='whiskers',
-      version='1.0.0',
-      description='whiskers',
-      long_description=README + '\n\n' + CHANGES,
+setup(name="whiskers",
+      version="1.0.0",
+      description="whiskers",
+      long_description=README + "\n\n" + CHANGES,
       classifiers=[
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.6",
@@ -33,15 +33,16 @@ setup(name='whiskers',
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
-      author='Jukka Ojaniemi',
-      author_email='jukka.ojaniemi@gmail.com',
-      url='https://github.com/pingviini/whiskers',
-      keywords='web wsgi pyramid whiskers buildout',
+      author="Jukka Ojaniemi",
+      author_email="jukka.ojaniemi@gmail.com",
+      url="https://github.com/pingviini/whiskers",
+      keywords="web wsgi pyramid whiskers buildout",
+      license="MIT",
       package_dir={"": "src"},
-      packages=find_packages('src'),
+      packages=find_packages("src"),
       include_package_data=True,
       zip_safe=False,
-      test_suite='whiskers.tests',
+      test_suite="whiskers.tests",
       install_requires=requires,
       tests_require=test_requires,
       entry_points="""\
